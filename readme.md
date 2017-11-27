@@ -6,14 +6,15 @@ A data ingestion tool and demonstration.
 ### Data  & Metadata 
 I have a csv file with a structure plain as snow,
 and everwhere this csv went, the metadata was sure to go.
-id|time|perf
---|----|----
-1 | 0  | 15
-1 | 1  | 14
-1 | 2  | 14
-2 | 0  | 7
-2 | 1  | 8
-2 | 2  | 8
+
+| id |time | perf|
+|---|----|----|
+| 1| 0  | 15 |
+| 1 | 1  | 14 |
+| 1 | 2  | 14 |
+| 2 | 0  | 7 |
+| 2 | 1  | 8 |
+| 2 | 2  | 8 |
 
 ```json
   "tableSchema": {
