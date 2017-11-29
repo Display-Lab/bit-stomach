@@ -2,6 +2,7 @@ library(dplyr, warn.conflicts = FALSE)
 library(readr)
 library(here)
 library(zoo)
+library(jsonld)
 
 # Parameters path to CSV and config,
 #' @param data_path path to data csv file
@@ -42,12 +43,32 @@ eval_mastery <- function(x){
   # else, default to false for has_mastery
   return(FALSE)
 }
-df %>% 
-  group_by_at(.vars=c('id')) %>% 
-  summarise_at(.funs=eval_mastery, .vars=c('perf')) %>% 
+mastery_summ <- df %>% 
+  group_by_at(.vars=id_cols) %>% 
+  summarise_at(.funs=eval_mastery, .vars=perf_cols) %>% 
   rename(has_mastery=perf)
 
 # Examine each performer for notHasMastery
 # Inverse of the logic for hasMastery, but this might not always be the case
 
 # Examine each performer for hasDownwardTrend
+eval_downward <- function(x){
+  len <- length(x)
+  tail <- x[(len-2):len]
+  body <- x[1:(len-3)]
+  body_mean <- mean(body)
+  tail_mean <- mean(tail)
+  tail_slope <- lm(i~tail, list(i=1:3,tail=tail))$coefficients['tail']
+  if(tail_mean < body_mean && tail_slope < 1) {return(TRUE)}
+  return(FALSE)
+}
+down_summ <- df %>% 
+  group_by_at(.vars=id_cols) %>% 
+  summarise_at(.funs=eval_downward, .vars=perf_cols) %>% 
+  rename(has_downward=perf)
+
+attr_table <- merge(down_summ, mastery_summ)
+
+# Output RDF or JSON-LD annotations
+
+
