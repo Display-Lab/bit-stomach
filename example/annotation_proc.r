@@ -34,7 +34,7 @@ df <- read_csv(data_path)
 # summarize with list of column names
 df %>% group_by_at(.vars=c('id')) %>% summarise_at(.funs=mean, .vars=c('perf'))
 
-# Examine each performer for hasMastery
+# Examine each performer for disposition has_dominant_performance_capability
 eval_mastery <- function(x){ 
   # if any score is above a 16, has mastery
   if(any(x > 15)){ return(TRUE) }
@@ -69,9 +69,16 @@ down_summ <- df %>%
   summarise_at(.funs=eval_downward, .vars=perf_cols) %>% 
   rename(has_downward=perf)
 
-# Consolidate attributes and 
-attr_table <- full_join(down_summ, mastery_summ) %>% 
-  mutate("@type"="performer")
+# Consolidate dispositions that have a true value 
+# Rename columns for convenient export to jsonld
+performer_table <- full_join(down_summ, mastery_summ) %>%
+  melt(id.vars='id', variable.name='disposition') %>%
+  filter(value==T) %>%
+  select(-value) %>%
+  group_by(id) %>%
+  summarise(has_disposition=list(disposition)) %>%
+  mutate("@type"="performer") %>%
+  rename("@id"=id)
 
 # Output RDF or JSON-LD annotations
 # Build a context that maps the attribute table column names to canonnical URIs
@@ -80,16 +87,13 @@ attr_table <- full_join(down_summ, mastery_summ) %>%
 #  "has_downward": "http://purl.obolibrary.org/obo/fio#DownwardPerformance" NEEDS FIO DEFINITION
 context <- '{
   "performer": "http://purl.obolibrary.org/obo/fio#FIO_0000001",
+  "has_part": "http://purl.obolibrary.org/obo/fio#",
   "has_mastery": "http://purl.obolibrary.org/obo/fio#FIO_0000086",
   "has_downward": "http://purl.obolibrary.org/obo/fio#DownwardPerformance"
 }'
 
-# {"@id":"Alice", "@type":"performer", "has_disposition":["has_mastery"] 
+doc <- paste('{"@id":"feedback_situation",',
+      '"@type":"http://purl.obolibrary.org/obo/fio#FIO_0000050",',
+      '"has_part":', toJSON(performer_table), '}')
 
-
-build_performer_string <- function(x){
-}
-
-
-
-
+# Export or return JSON-LD document
