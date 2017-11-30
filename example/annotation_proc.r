@@ -3,6 +3,8 @@ library(readr)
 library(here)
 library(zoo)
 library(jsonld)
+library(jsonlite)
+library(glue)
 
 # Parameters path to CSV and config,
 #' @param data_path path to data csv file
@@ -67,8 +69,27 @@ down_summ <- df %>%
   summarise_at(.funs=eval_downward, .vars=perf_cols) %>% 
   rename(has_downward=perf)
 
-attr_table <- merge(down_summ, mastery_summ)
+# Consolidate attributes and 
+attr_table <- full_join(down_summ, mastery_summ) %>% 
+  mutate("@type"="performer")
 
 # Output RDF or JSON-LD annotations
+# Build a context that maps the attribute table column names to canonnical URIs
+#  "performer": "http://purl.obolibrary.org/obo/fio#FIO_0000001", Performer
+#  "has_mastery": "http://purl.obolibrary.org/obo/fio#FIO_0000086", dominant_performance_capability
+#  "has_downward": "http://purl.obolibrary.org/obo/fio#DownwardPerformance" NEEDS FIO DEFINITION
+context <- '{
+  "performer": "http://purl.obolibrary.org/obo/fio#FIO_0000001",
+  "has_mastery": "http://purl.obolibrary.org/obo/fio#FIO_0000086",
+  "has_downward": "http://purl.obolibrary.org/obo/fio#DownwardPerformance"
+}'
+
+# {"@id":"Alice", "@type":"performer", "has_disposition":["has_mastery"] 
+
+
+build_performer_string <- function(x){
+}
+
+
 
 
