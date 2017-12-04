@@ -5,6 +5,7 @@ library(zoo)
 library(jsonld)
 library(jsonlite)
 library(glue)
+library(reshape2)
 
 # Parameters path to CSV and config,
 #' @param data_path path to data csv file
@@ -16,6 +17,8 @@ library(glue)
 # for the dplyr functions.  See:
 # https://cran.r-project.org/web/packages/dplyr/vignettes/programming.html
 
+# Application ontology url.  Prefix ids with this.
+app_onto_url = "https://inference.es/app/onto#"
 
 # Name of column that ids a performer  
 id_cols <- c('id')
@@ -26,6 +29,7 @@ perf_cols <- c('perf')
 # Name of column that contains time information
 time_col <- c('time')
 
+# Filename of input data
 data_path <- file.path(here(),"example","input","data.csv")
 
 # Read in data frame
@@ -77,23 +81,34 @@ performer_table <- full_join(down_summ, mastery_summ) %>%
   select(-value) %>%
   group_by(id) %>%
   summarise(has_disposition=list(disposition)) %>%
-  mutate("@type"="performer") %>%
+  mutate("@type"="performer", id=paste0(app_onto_url,id)) %>%
   rename("@id"=id)
 
-# Output RDF or JSON-LD annotations
+# make JSON-LD from data annotations
 # Build a context that maps the attribute table column names to canonnical URIs
 #  "performer": "http://purl.obolibrary.org/obo/fio#FIO_0000001", Performer
 #  "has_mastery": "http://purl.obolibrary.org/obo/fio#FIO_0000086", dominant_performance_capability
 #  "has_downward": "http://purl.obolibrary.org/obo/fio#DownwardPerformance" NEEDS FIO DEFINITION
+#  "has_part": "http://purl.obolibrary.org/obo/bfo#BFO_0000051", OBO Relation "has part"
+## IDs need to be URIs.  Add these to the application ontology?
+# doc <- paste('{"@id":"https://inference.es/app/onto#FEEDBACK_SITUATION",',
+tmp_filename <- tempfile(fileext=".json")
 context <- '{
   "performer": "http://purl.obolibrary.org/obo/fio#FIO_0000001",
-  "has_part": "http://purl.obolibrary.org/obo/fio#",
+  "has_part": "http://purl.obolibrary.org/obo/bfo#BFO_0000051",
   "has_mastery": "http://purl.obolibrary.org/obo/fio#FIO_0000086",
   "has_downward": "http://purl.obolibrary.org/obo/fio#DownwardPerformance"
 }'
 
-doc <- paste('{"@id":"feedback_situation",',
+doc <- paste('{"@id":"https://inference.es/app/onto#FEEDBACK_SITUATION",',
       '"@type":"http://purl.obolibrary.org/obo/fio#FIO_0000050",',
-      '"has_part":', toJSON(performer_table), '}')
+      '"http://purl.obolibrary.org/obo/bfo#BFO_0000051":', toJSON(performer_table), '}')
 
-# Export or return JSON-LD document
+json_output <- jsonld_compact(doc, context)
+
+# Write to file and output filename to std out
+cat(json_output, file=tmp_filename)
+cat(tmp_filename)
+
+
+
