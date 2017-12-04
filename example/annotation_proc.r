@@ -1,10 +1,10 @@
 library(dplyr, warn.conflicts = FALSE)
 library(readr)
-library(here)
-library(zoo)
+suppressPackageStartupMessages(library(here))
+library(zoo, warn.conflicts = FALSE)
 library(jsonld)
-library(jsonlite)
-library(glue)
+suppressPackageStartupMessages(library(jsonlite))
+library(glue, warn.conflicts = FALSE)
 library(reshape2)
 
 # Parameters path to CSV and config,
@@ -32,11 +32,15 @@ time_col <- c('time')
 # Filename of input data
 data_path <- file.path(here(),"example","input","data.csv")
 
-# Read in data frame
-df <- read_csv(data_path)
+# Output directory for json-ld
+output_dir <- file.path("","tmp","bstomach")
 
-# summarize with list of column names
-df %>% group_by_at(.vars=c('id')) %>% summarise_at(.funs=mean, .vars=c('perf'))
+
+# Read in data frame
+# Sink output so that read_csv doesn't barf file names at me
+sink(file=file("/dev/null","w"), type="message")
+df <- read_csv(data_path)
+sink(file=NULL, type="message")
 
 # Examine each performer for disposition has_dominant_performance_capability
 eval_mastery <- function(x){ 
@@ -75,7 +79,7 @@ down_summ <- df %>%
 
 # Consolidate dispositions that have a true value 
 # Rename columns for convenient export to jsonld
-performer_table <- full_join(down_summ, mastery_summ) %>%
+performer_table <- full_join(down_summ, mastery_summ, id_cols) %>%
   melt(id.vars='id', variable.name='disposition') %>%
   filter(value==T) %>%
   select(-value) %>%
@@ -92,7 +96,6 @@ performer_table <- full_join(down_summ, mastery_summ) %>%
 #  "has_part": "http://purl.obolibrary.org/obo/bfo#BFO_0000051", OBO Relation "has part"
 ## IDs need to be URIs.  Add these to the application ontology?
 # doc <- paste('{"@id":"https://inference.es/app/onto#FEEDBACK_SITUATION",',
-tmp_filename <- tempfile(fileext=".json")
 context <- '{
   "performer": "http://purl.obolibrary.org/obo/fio#FIO_0000001",
   "has_part": "http://purl.obolibrary.org/obo/bfo#BFO_0000051",
@@ -107,8 +110,8 @@ doc <- paste('{"@id":"https://inference.es/app/onto#FEEDBACK_SITUATION",',
 json_output <- jsonld_compact(doc, context)
 
 # Write to file and output filename to std out
+dir.create(output_dir, showWarnings=F)
+tmp_filename <- tempfile(pattern="situation", tmpdir=output_dir, fileext=".json")
+
 cat(json_output, file=tmp_filename)
 cat(tmp_filename)
-
-
-
