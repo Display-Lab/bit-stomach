@@ -1,11 +1,11 @@
+library(tidyr)
 library(dplyr, warn.conflicts = FALSE)
 library(readr)
 suppressPackageStartupMessages(library(here))
 library(zoo, warn.conflicts = FALSE)
 library(jsonld)
 suppressPackageStartupMessages(library(jsonlite))
-library(glue, warn.conflicts = FALSE)
-library(reshape2)
+library(stringr)
 
 # Parameters path to CSV and config,
 #' @param data_path path to data csv file
@@ -19,6 +19,16 @@ library(reshape2)
 
 # Application ontology url.  Prefix ids with this.
 app_onto_url = "https://inference.es/app/onto#"
+
+# json-ld context structure to look up URIs from short names
+uri_lookup <- list(
+  "performer"       = "http://purl.obolibrary.org/obo/fio#FIO_0000001",
+  "situation"       = "http://purl.obolibrary.org/obo/fio#FIO_0000050",
+  "has_mastery"     = "http://purl.obolibrary.org/obo/fio#FIO_0000086",
+  "has_downward"    = "http://purl.obolibrary.org/obo/fio#DownwardPerformance",
+  "has_part"        = "http://purl.obolibrary.org/obo/bfo#BFO_0000051",
+  "has_disposition" =  "http://purl.obolibrary.org/obo/RO_0000091",
+  "client_situation" = "https://inference.es/app/onto#Client_Situation")
 
 # Name of column that ids a performer  
 id_cols <- c('id')
@@ -43,7 +53,7 @@ df <- read_csv(data_path)
 sink(file=NULL, type="message")
 
 # Examine each performer for disposition has_dominant_performance_capability
-eval_mastery <- function(x){ 
+eval_mastery <- function(x){
   # if any score is above a 16, has mastery
   if(any(x > 15)){ return(TRUE) }
   # If any three scores in a row are higher than the threshold 10, has mastery
@@ -79,35 +89,38 @@ down_summ <- df %>%
 
 # Consolidate dispositions that have a true value 
 # Rename columns for convenient export to jsonld
-performer_table <- full_join(down_summ, mastery_summ, id_cols) %>%
-  melt(id.vars='id', variable.name='disposition') %>%
+# Convert disposition short names like has_mastery to full url
+dispositions <- full_join(down_summ, mastery_summ, id_cols) %>%
+  gather(key='disposition', value="value", -id) %>%
   filter(value==T) %>%
   select(-value) %>%
-  group_by(id) %>%
+  group_by(id) %>% mutate(disposition=recode(disposition, !!!uri_lookup)) 
+
+performer_table <- dispositions %>%
   summarise(has_disposition=list(disposition)) %>%
-  mutate("@type"="performer", id=paste0(app_onto_url,id)) %>%
-  rename("@id"=id)
+  mutate("@type"=uri_lookup$performer, id=paste0(app_onto_url,id)) %>%
+  rename("@id"=id, !!uri_lookup$has_disposition := has_disposition)
 
 # make JSON-LD from data annotations
 # Build a context that maps the attribute table column names to canonnical URIs
-#  "performer": "http://purl.obolibrary.org/obo/fio#FIO_0000001", Performer
-#  "has_mastery": "http://purl.obolibrary.org/obo/fio#FIO_0000086", dominant_performance_capability
-#  "has_downward": "http://purl.obolibrary.org/obo/fio#DownwardPerformance" NEEDS FIO DEFINITION
-#  "has_part": "http://purl.obolibrary.org/obo/bfo#BFO_0000051", OBO Relation "has part"
 ## IDs need to be URIs.  Add these to the application ontology?
-# doc <- paste('{"@id":"https://inference.es/app/onto#FEEDBACK_SITUATION",',
-context <- '{
-  "performer": "http://purl.obolibrary.org/obo/fio#FIO_0000001",
-  "has_part": "http://purl.obolibrary.org/obo/bfo#BFO_0000051",
-  "has_mastery": "http://purl.obolibrary.org/obo/fio#FIO_0000086",
-  "has_downward": "http://purl.obolibrary.org/obo/fio#DownwardPerformance"
-}'
+ctx <- toJSON(uri_lookup, auto_unbox = T)
 
-doc <- paste('{"@id":"https://inference.es/app/onto#FEEDBACK_SITUATION",',
+doc <- paste('{"@id":"https://inference.es/app/onto#Client_Situation",',
       '"@type":"http://purl.obolibrary.org/obo/fio#FIO_0000050",',
       '"http://purl.obolibrary.org/obo/bfo#BFO_0000051":', toJSON(performer_table), '}')
 
-json_output <- jsonld_compact(doc, context)
+
+full <- list("@context"=uri_lookup,
+             "@id"=uri_lookup$client_situation,
+             "@type"= uri_lookup$situation,
+             "has_part"=performer_table)
+
+# Expand and compact json document to fill in the 
+f <- toJSON(full, auto_unbox = T, pretty = T)
+e <- jsonld_expand(f)
+json_output <- jsonld_compact(e, toJSON(uri_lookup,auto_unbox = T))
+
 
 # Write to file and output filename to std out
 dir.create(output_dir, showWarnings=F)
