@@ -1,3 +1,4 @@
+# Calls the annotation R script to produce json-ld annotation of situation.
 class Annotator
 
   def self.fork_annotation(annotator_path)
