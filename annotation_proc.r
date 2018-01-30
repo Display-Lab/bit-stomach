@@ -44,7 +44,7 @@ data_path <- file.path(here(),"example","input","performer-data.csv")
 output_dir <- file.path("","tmp","bstomach")
 
 # TODO: Read annotation function file from CLI eventually. Hardcode for now.
-annotation_path <- file.path(here(),"example","annotations.r")
+annotation_path <- file.path(here(),"example","input","annotations.r")
 
 # Source the annotations for the situation into anno env.
 # Get all functions that start with annotation_
@@ -125,3 +125,4 @@ tmp_filename <- tempfile(pattern="situation", tmpdir=output_dir, fileext=".json"
 
 cat(json_output, file=tmp_filename)
 cat(tmp_filename)
+
