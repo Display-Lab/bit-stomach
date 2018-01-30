@@ -2,7 +2,6 @@ library(tidyr)
 library(dplyr, warn.conflicts = FALSE)
 library(readr)
 suppressPackageStartupMessages(library(here))
-library(zoo, warn.conflicts = FALSE)
 library(jsonld)
 suppressPackageStartupMessages(library(jsonlite))
 library(stringr)
@@ -20,30 +19,41 @@ library(stringr)
 # Application ontology url.  Prefix ids with this.
 app_onto_url = "https://inference.es/app/onto#"
 
-# json-ld context structure to look up URIs from short names
-uri_lookup <- list(
+
+# default URIs used in json-ld context.
+# structure to look up URIs from short names of column headings
+default_uri_lookup <- list(
   "performer"       = "http://purl.obolibrary.org/obo/fio#FIO_0000001",
   "situation"       = "http://purl.obolibrary.org/obo/fio#FIO_0000050",
-  "has_mastery"     = "http://purl.obolibrary.org/obo/fio#FIO_0000086",
-  "has_downward"    = "http://purl.obolibrary.org/obo/fio#DownwardPerformance",
   "has_part"        = "http://purl.obolibrary.org/obo/bfo#BFO_0000051",
   "has_disposition" =  "http://purl.obolibrary.org/obo/RO_0000091",
   "client_situation" = "https://inference.es/app/onto#Client_Situation")
 
+# TODO: Read from configuration eventually.  In the meantime, hardcode!
 # Name of column that ids a performer  
-id_cols <- c('id')
-
+id_cols <- c('performer')
 # Names of columns to be analyzed for performance signals
-perf_cols <- c('perf')
-
+perf_cols <- c('score')
 # Name of column that contains time information
-time_col <- c('time')
+time_col <- c('timepoint')
 
+# TODO: Read from path to data from CLI eventually.  In the meantime, hardcode!
 # Filename of input data
-data_path <- file.path(here(),"example","input","data.csv")
-
+data_path <- file.path(here(),"example","input","performer-data.csv")
 # Output directory for json-ld
 output_dir <- file.path("","tmp","bstomach")
+
+# TODO: Read annotation function file from CLI eventually. Hardcode for now.
+annotation_path <- file.path(here(),"example","annotations.r")
+
+# Source the annotations for the situation into anno env.
+# Get all functions that start with annotation_
+# Add the uri_lookup from anno env to default list of uri lookups
+anno_env <- new.env(parent=.BaseNamespaceEnv)
+source(annotation_path, local=anno_env)
+
+# Merge any uri_lookup in the annotation with the default
+uri_lookup <- c(default_uri_lookup , anno_env$uri_lookup)
 
 
 # Read in data frame
@@ -52,53 +62,41 @@ sink(file=file("/dev/null","w"), type="message")
 df <- read_csv(data_path)
 sink(file=NULL, type="message")
 
+# Convert the id columns to a single column by concatenation
+id_syms <- rlang::syms(id_cols)
+df <- df %>% 
+  mutate(id=paste(!!!id_syms, sep='-')) %>%
+  select(-c(!!!id_syms))
+  
 # Examine each performer for disposition has_dominant_performance_capability
-eval_mastery <- function(x){
-  # if any score is above a 16, has mastery
-  if(any(x > 15)){ return(TRUE) }
-  # If any three scores in a row are higher than the threshold 10, has mastery
-  b_above_lim <- x > 10
-  three_in_row <- rollmean(b_above_lim, 3) > 0.9
-  if(any(three_in_row)){ return(TRUE)}
-  # else, default to false for has_mastery
-  return(FALSE)
-}
-mastery_summ <- df %>% 
-  group_by_at(.vars=id_cols) %>% 
-  summarise_at(.funs=eval_mastery, .vars=perf_cols) %>% 
-  rename(has_mastery=perf)
+# TODO: Run through the list of the annotation functions in the annotator env.
+#  Get list of results data frames.
+#  Left join them all
 
-# Examine each performer for notHasMastery
-# Inverse of the logic for hasMastery, but this might not always be the case
+afs <- lsf.str(envir=anno_env, pattern="annotate")
+anno_args <- list(data=df, perf_cols=perf_cols)
 
-# Examine each performer for hasDownwardTrend
-eval_downward <- function(x){
-  len <- length(x)
-  tail <- x[(len-2):len]
-  body <- x[1:(len-3)]
-  body_mean <- mean(body)
-  tail_mean <- mean(tail)
-  tail_slope <- lm(i~tail, list(i=1:3,tail=tail))$coefficients['tail']
-  if(tail_mean < body_mean && tail_slope < 1) {return(TRUE)}
-  return(FALSE)
-}
-down_summ <- df %>% 
-  group_by_at(.vars=id_cols) %>% 
-  summarise_at(.funs=eval_downward, .vars=perf_cols) %>% 
-  rename(has_downward=perf)
+# Create an annotation table per each annotation function
+anno_results <- lapply(afs, do.call, args=anno_args, envir=anno_env)
 
-# Consolidate dispositions that have a true value 
+# Reduce results list into a single annotation table
+annotations <- Reduce(left_join, anno_results)
+
+# Filter for annoatations that have a true value 
 # Rename columns for convenient export to jsonld
-# Convert disposition short names like has_mastery to full url
-dispositions <- full_join(down_summ, mastery_summ, id_cols) %>%
+# Convert annotation short names like has_mastery to full url
+dispositions <- annotations %>%
   gather(key='disposition', value="value", -id) %>%
   filter(value==T) %>%
   select(-value) %>%
-  group_by(id) %>% mutate(disposition=recode(disposition, !!!uri_lookup)) 
-
+  group_by(id) %>%
+  mutate(disposition=recode(disposition, !!!uri_lookup)) 
+  
+# Condense to table with single row per performer and list of their annoations
+#  Convenient format for export to JSON-LD
 performer_table <- dispositions %>%
   summarise(has_disposition=list(disposition)) %>%
-  mutate("@type"=uri_lookup$performer, id=paste0(app_onto_url,id)) %>%
+  mutate("@type"=uri_lookup$performer, id=paste0(app_onto_url,id))  %>%
   rename("@id"=id, !!uri_lookup$has_disposition := has_disposition)
 
 # make JSON-LD from data annotations
@@ -120,7 +118,6 @@ full <- list("@context"=uri_lookup,
 f <- toJSON(full, auto_unbox = T, pretty = T)
 e <- jsonld_expand(f)
 json_output <- jsonld_compact(e, toJSON(uri_lookup,auto_unbox = T))
-
 
 # Write to file and output filename to std out
 dir.create(output_dir, showWarnings=F)
