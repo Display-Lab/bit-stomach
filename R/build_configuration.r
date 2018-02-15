@@ -1,5 +1,6 @@
 # Build runtime configuration
 library('config')
+library('here')
 
 DEFAULT_URI_LOOKUP <- list(
   "performer"       = "http://purl.obolibrary.org/obo/fio#FIO_0000001",
@@ -11,11 +12,11 @@ DEFAULT_URI_LOOKUP <- list(
 build_configuration <- function(path_to_config){
   list( uri_lookup = DEFAULT_URI_LOOKUP,
         app_onto_url = "https://inference.es/app/onto#",
-        data_path = "",
+        data_path = file.path(here(),"example","input","performer-data.csv"),
         output_dir = file.path("","tmp","bstomach"),
-        annotation_path = "",
-        id_cols = "",
-        perf_cols = "",
-        time_cols = ""
+        annotation_path = file.path(here(),"example","input","annotations.r"),
+        id_cols = c('performer'),
+        perf_cols = c('score'),
+        time_col = c('timepoint')
         )
 }

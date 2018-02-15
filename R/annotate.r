@@ -1,6 +1,6 @@
 # Use annotation functions to annotate data
 
-annotate <- function(anno_env, data, perf_cols){
+annotate <- function(data, anno_env, perf_cols){
   # Get list of annotations functions from annotation environment
   anno_func_names <- lsf.str(envir=anno_env, pattern="annotate")
   
