@@ -1,0 +1,10 @@
+Package: bitstomach
+Title: Ingest data to add annotations to spek.
+Version: 0.0.1.0
+Authors@R: person("Colin", "Gross", email = "grosscol@umich.edu", role = c("aut", "cre"))
+Description: Read performance data, apply annotation functions, add performer annotations back to speck, and output spek with annotations.
+Depends: R (>= 3.4.3)
+License: Apache 2.0
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.0.1
