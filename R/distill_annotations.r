@@ -1,7 +1,9 @@
-
-# Filter for annoatations that have a true value 
-# Rename columns for convenient export to jsonld
-# Convert annotation short names like has_mastery to full url
+#' @title Distill Annotations
+#' @description Prepare annotations for jsonld export: 
+#'   Filter for annotations that are TRUE,
+#'   Rename columns for export to jsonld,
+#'   Convert annoation short names to full url
+#' @import dplyr
 distill_annotations <- function(annotations, uri_lookup){
   annotations %>%
     gather(key='disposition', value="value", -id) %>%

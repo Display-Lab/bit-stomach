@@ -1,6 +1,6 @@
-
-# Condense to table with single row per performer and list of their annoations
-#  Convenient format for export to JSON-LD
+#' @title Performers
+#' @description Condense data frame with single row per performer and list of their annotations.
+#' @note Convenient format for subsequent export to jsonld
 performers <- function(dispositions, app_onto_url, uri_lookup){
   dispositions %>%
     summarise(has_disposition=list(disposition)) %>%
