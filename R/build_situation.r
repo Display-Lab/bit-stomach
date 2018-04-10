@@ -10,7 +10,7 @@ build_situation <- function(performer_table, uri_lookup) {
   doc <- paste(
     '{"@id":"https://inference.es/app/onto#Client_Situation",',
     '"@type":"http://purl.obolibrary.org/obo/fio#FIO_0000050",',
-    '"http://purl.obolibrary.org/obo/bfo#BFO_0000051":', toJSON(performer_table), "}"
+    '"http://purl.obolibrary.org/obo/bfo#BFO_0000051":', jsonlite::toJSON(performer_table), "}"
   )
 
   full <- list(
@@ -23,5 +23,5 @@ build_situation <- function(performer_table, uri_lookup) {
   # Expand and compact json document to replace the uri keys using the context
   f <- jsonlite::toJSON(full, auto_unbox = T, pretty = T)
   e <- jsonld::jsonld_expand(f)
-  jsonld::jsonld_compact(e, toJSON(uri_lookup, auto_unbox = T))
+  jsonld::jsonld_compact(e, jsonlite::toJSON(uri_lookup, auto_unbox = T))
 }

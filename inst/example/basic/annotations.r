@@ -2,6 +2,8 @@ library(zoo, warn.conflicts = FALSE)
 library(dplyr, warn.conflicts = FALSE)
 
 # Annotator functions for example situation
+# Annotation functions need to be aware of column names apriori
+# Passing col_spec here, but it is unused
 
 # URIs specific to this annotation set
 uri_lookup <- list(
@@ -34,24 +36,18 @@ eval_downward <- function(x){
 }
 
 # Annotation functions
-
-# return mastery_summ
-annotate_mastery <- function(data, perf_cols){
-  data %>% 
-    group_by(id) %>% 
-    summarise_at(.funs=eval_mastery, .vars=perf_cols) %>% 
-    rename_at(.vars=perf_cols, .funs=function(x){'has_mastery'})
+annotate_mastery <- function(data, col_spec){
+  data %>%
+    group_by(id) %>%
+    summarise_at(.funs=eval_mastery, .vars=c('score')) %>%
+    rename_at(.vars=c('score'), .funs=function(x){'has_mastery'})
 }
 
-# Examine each performer for notHasMastery
-# Inverse of the logic for hasMastery, but this might not always be the case
-
 # Examine each performer for hasDownwardTrend
-# return down_summ 
-annotate_downtrend <- function(data, perf_cols){
-  data %>% 
-    group_by(id) %>% 
-    summarise_at(.funs=eval_downward, .vars=perf_cols) %>% 
-    rename_at(.vars=perf_cols, .funs=function(x){'has_downward'})
+annotate_downtrend <- function(data, col_spec){
+  data %>%
+    group_by(id) %>%
+    summarise_at(.funs=eval_downward, .vars=c('score')) %>%
+    rename_at(.vars=c('score'), .funs=function(x){'has_downward'})
 }
 

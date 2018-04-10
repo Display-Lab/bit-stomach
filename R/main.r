@@ -1,27 +1,44 @@
 #' @title Main
 #' @description The entry function with all the side effects
-#' @param path_to_config Path to configuration yaml. Use NULL to use internal defaults.
-#' @param overrides List of configuration overrides.
+#' @param config_path Path to configuration yaml. Use NULL to use internal defaults.
+#' @param ... List of configuration overrides passed to build_config
+#' @note The list of overrides can include any values in the config:
+#'    uri_lookup
+#'    app_onto_url
+#'    data_path
+#'    output_dir
+#'    annotation_path
+#'    id_cols
+#'    perf_cols
+#'    time_col
 #' @export
-main <- function(path_to_config = NULL, overrides = NULL) {
+main <- function(config_path = NULL, ...) {
 
   # Build configuration
-  run_config <- build_configuration(path_to_config)
+  run_config <- build_configuration(path_to_config, ...)
 
+  # Run application logic
+  digestion(run_config)
+}
+
+#' @title Digestion
+#' @describeIn main
+#' @param config Runtime configuration
+digestion <- function(config){
   # Read data
-  raw_data <- read_data(run_config$data_path)
+  raw_data <- read_data(config$data_path)
 
   # Source annotation functions and additional uri lookup
-  anno_env <- source_annotations(run_config$annotation_path)
+  anno_env <- source_annotations(config$annotation_path)
 
   # Merge additional uri_lookup from annotation environmen#t
-  merged_uri_lookup <- merge_uri_lookups(run_config, anno_env)
+  merged_uri_lookup <- merge_uri_lookups(config, anno_env)
 
   # Canonicalize id columns to single id column.
-  idd_data <- canonicalize_ids(raw_data, run_config$id_cols)
+  idd_data <- canonicalize_ids(raw_data, config$col_spec$id_cols)
 
   # Process data and generate annotations
-  annotations <- annotate(idd_data, anno_env, run_config$perf_cols)
+  annotations <- annotate(idd_data, anno_env, config$col_spec)
 
   # Filter annotations to get dispositions
   dispositions <- distill_annotations(annotations, merged_uri_lookup)
@@ -33,5 +50,6 @@ main <- function(path_to_config = NULL, overrides = NULL) {
   situation_json <- build_situation(performer_table, merged_uri_lookup)
 
   # Write Situation to disk
-  persist_to_disk(situation_json, run_config$output_dir)
+  persist_to_disk(situation_json, config$output_dir)
+
 }

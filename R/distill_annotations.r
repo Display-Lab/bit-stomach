@@ -4,9 +4,10 @@
 #'   Rename columns for export to jsonld,
 #'   Convert annoation short names to full url
 #' @import dplyr
+#' @importFrom tidyr gather
 distill_annotations <- function(annotations, uri_lookup) {
   annotations %>%
-    gather(key = "disposition", value = "value", -id) %>%
+    tidyr::gather(key = "disposition", value = "value", -id) %>%
     filter(value == T) %>%
     select(-value) %>%
     group_by(id) %>%
