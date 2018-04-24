@@ -8,6 +8,9 @@ persist_to_disk <- function(content, output_dir=tempdir()) {
   dir.create(output_dir, showWarnings = F)
   tmp_filename <- tempfile(pattern = "spek-", tmpdir = output_dir, fileext = ".json")
 
+  # Write content
   cat(content, file = tmp_filename)
-  cat(tmp_filename)
+
+  # Return filename
+  return(tmp_filename)
 }

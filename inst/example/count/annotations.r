@@ -1,4 +1,3 @@
-library(zoo, warn.conflicts = FALSE)
 library(dplyr, warn.conflicts = FALSE)
 
 # Annotator functions for example situation
@@ -17,48 +16,77 @@ uri_lookup <- list(
 )
 
 # Helper functions
-
-eval_mastery <- function(x){
-  # if any score is above a 16, has mastery
-  if(any(x > 15)){ return(TRUE) }
-  # If any three scores in a row are higher than the threshold 10, has mastery
-  b_above_lim <- x > 10
-  three_in_row <- rollmean(b_above_lim, 3) > 0.9
-  if(any(three_in_row)){ return(TRUE)}
-  # else, default to false for has_mastery
-  return(FALSE)
+background_aves <- function(ids, vals){
+  masks <- lapply(ids, FUN=function(id,idz){idz != id}, idz=ids)
+  sapply(masks, FUN=function(mask, valz){mean(valz[mask])}, vals)
 }
 
-eval_downward <- function(x){
+eval_capability_barrier <- function(x){
+  all(x < 0.5)
+}
+
+eval_perf_gap <- function(val, bkgd){
+  cutoff <- 0.8 * bkgd
+  val <= cutoff
+}
+
+eval_perf_trend_neg <- function(x){
   len <- length(x)
   tail <- x[(len-2):len]
   body <- x[1:(len-3)]
   body_mean <- mean(body)
   tail_mean <- mean(tail)
   tail_slope <- lm(i~tail, list(i=1:3,tail=tail))$coefficients['tail']
-  if(tail_mean < body_mean && tail_slope < 1) {return(TRUE)}
-  return(FALSE)
+  if(tail_mean < body_mean && tail_slope < 1){
+    return(TRUE)
+  }else{
+    return(FALSE)
+  }
+}
+
+eval_perf_trend_pos <- function(x){
+  len <- length(x)
+  tail <- x[(len-2):len]
+  body <- x[1:(len-3)]
+  body_mean <- mean(body)
+  tail_mean <- mean(tail)
+  tail_slope <- lm(i~tail, list(i=1:3,tail=tail))$coefficients['tail']
+  if(tail_mean > body_mean && tail_slope > 1){
+    return(TRUE)
+  }else{
+    return(FALSE)
+  }
+
 }
 
 # Annotation functions
-
-# return mastery_summ
-annotate_mastery <- function(data, perf_cols){
+annotate_capability_barrier <- function(data, col_spec){
   data %>%
+    mutate(rate=numerator/denominator) %>%
     group_by(id) %>%
-    summarise_at(.funs=eval_mastery, .vars=perf_cols) %>%
-    rename_at(.vars=perf_cols, .funs=function(x){'has_mastery'})
+    summarize(capability_barrier = eval_capability_barrier(rate))
 }
 
-# Examine each performer for notHasMastery
-# Inverse of the logic for hasMastery, but this might not always be the case
-
-# Examine each performer for hasDownwardTrend
-# return down_summ
-annotate_downtrend <- function(data, perf_cols){
+annotate_perf_trend_neg <- function(data, col_spec){
   data %>%
+    mutate(rate=numerator/denominator) %>%
     group_by(id) %>%
-    summarise_at(.funs=eval_downward, .vars=perf_cols) %>%
-    rename_at(.vars=perf_cols, .funs=function(x){'has_downward'})
+    summarize(perf_trend_neg=eval_perf_trend_neg(rate))
 }
 
+annotate_perf_trend_pos <- function(data, col_spec){
+  data %>%
+    mutate(rate=numerator/denominator) %>%
+    group_by(id) %>%
+    summarize(perf_trend_pos=eval_perf_trend_pos(rate))
+}
+
+annotate_gap <- function(data, col_spec){
+  data %>%
+    mutate(rate=numerator/denominator) %>%
+    group_by(id) %>%
+    summarize(mean_rate=mean(rate)) %>%
+    mutate(bkgd_rate = background_aves(id, mean_rate)) %>%
+    group_by(id) %>%
+    summarize(perf_gap=eval_perf_gap(mean_rate, bkgd_rate))
+}

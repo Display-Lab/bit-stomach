@@ -1,7 +1,6 @@
 default:
   uri_lookup:
     performer:      "http://purl.obolibrary.org/obo/fio#FIO_0000001"
-    spek:           "http://purl.obolibrary.org/obo/fio#SPEK"
     has_performer:  "http://purl.obolibrary.org/obo/fio#HasPerformer"
     uses_template:  "http://purl.obolibrary.org/obo/fio#UsesTemplate"
     uses_ISR:       "http://purl.obolibrary.org/obo/fio#UsesISR"
@@ -25,9 +24,7 @@ default:
     has_part:        "http://purl.obolibrary.org/obo/bfo#BFO_0000051"
     has_disposition: "http://purl.obolibrary.org/obo/RO_0000091"
     client_spek:     "https://inference.es/app/onto#IPLARC_SPEK"
-  app_onto_url:      "https://inference.es/app/onto#"
-  #output_dir: "/tmp/bstomach"
-  #annotation_path = "example/count/annotations.r"
+  app_onto_url:      "https://inference.es/app/count#"
   col_spec:
     id_cols:
       - performer
