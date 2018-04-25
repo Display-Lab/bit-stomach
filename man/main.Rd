@@ -4,13 +4,16 @@
 \alias{main}
 \title{Main}
 \usage{
-main(path_to_config = NULL, overrides = NULL)
+main(config_path = NULL, ...)
 }
 \arguments{
-\item{path_to_config}{Path to configuration yaml. Use NULL to use internal defaults.}
+\item{config_path}{Path to configuration yaml. Use NULL to use internal defaults.}
 
-\item{overrides}{List of configuration overrides.}
+\item{...}{List of configuration overrides passed to build_config}
 }
 \description{
 The entry function with all the side effects
+}
+\seealso{
+build_configuration
 }

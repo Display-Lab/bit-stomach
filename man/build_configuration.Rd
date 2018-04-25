@@ -4,8 +4,27 @@
 \alias{build_configuration}
 \title{Build Configuration}
 \usage{
-build_configuration(path_to_config)
+build_configuration(config_path = NULL, ...)
+}
+\arguments{
+\item{config_path}{Path to configuration yaml. Use NULL to use internal defaults.}
+
+\item{...}{List of configuration overrides}
+}
+\value{
+a configuration
 }
 \description{
 Build runtime configuration by reading configuration from path or use defaults.
+}
+\note{
+The list of overrides can include any values in the config:
+   uri_lookup
+   app_onto_url
+   data_path
+   output_dir
+   annotation_path
+   id_cols
+   perf_cols
+   time_col
 }

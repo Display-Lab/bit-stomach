@@ -7,7 +7,7 @@
 distill_annotations(annotations, uri_lookup)
 }
 \description{
-Prepare annotations for jsonld export: 
+Prepare annotations for jsonld export:
   Filter for annotations that are TRUE,
   Rename columns for export to jsonld,
   Convert annoation short names to full url

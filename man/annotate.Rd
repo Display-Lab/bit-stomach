@@ -4,14 +4,14 @@
 \alias{annotate}
 \title{Annotate}
 \usage{
-annotate(data, anno_env, perf_cols)
+annotate(data, anno_env, col_spec)
 }
 \arguments{
 \item{data}{Performance data}
 
 \item{anno_env}{Environment containing the annotation functions.}
 
-\item{perf_cols}{names of columns of performance data}
+\item{col_spec}{Lists of id_cols, ordering_cols, perf_cols}
 }
 \description{
 Runn annotation functions over
