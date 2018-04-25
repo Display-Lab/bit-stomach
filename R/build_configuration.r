@@ -42,15 +42,11 @@ build_configuration <- function(config_path=NULL, ...) {
 default_config <- function(){
   list(
     uri_lookup = BS$DEFAULT_URI_LOOKUP,
-    app_onto_url = "https://inference.es/app/onto#",
+    app_onto_url = BS$DEFAULT_APP_ONTO_URL,
     data_path = system.file("example", "basic", "performer-data.csv", package = "bitstomach", mustWork = T),
     output_dir = tempdir(),
     annotation_path = system.file("example", "basic", "annotations.r", package = "bitstomach", mustWork = T),
-    col_spec = list(
-      id_cols = c("performer"),
-      perf_cols = c("score"),
-      ordering_cols = c("timepoint")
-    )
+    col_spec = BS$DEFAULT_COL_SPEC
   )
 }
 

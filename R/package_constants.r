@@ -8,3 +8,11 @@ BS$DEFAULT_URI_LOOKUP <- list(
   "has_disposition" = "http://purl.obolibrary.org/obo/RO_0000091",
   "client_situation" = "https://inference.es/app/onto#Client_Situation"
 )
+
+BS$DEFAULT_COL_SPEC <- list(
+  "id_cols" = c("performer"),
+  "perf_cols" = c("score"),
+  "ordering_cols" = c("timepoint")
+)
+
+BS$DEFAULT_APP_ONTO_URL <- "https://inference.es/app/onto#"

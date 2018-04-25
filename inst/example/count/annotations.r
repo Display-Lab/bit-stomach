@@ -5,16 +5,6 @@ library(dplyr, warn.conflicts = FALSE)
 #  Maybe change col_spec to annotation spec? how to include in the spek?
 #    col_spec + static_values
 
-# URIs specific to this annotation set
-uri_lookup <- list(
-  "capability_barrier"    = "http://purl.obolibrary.org/obo/fio#CapbilityBarrier",
-  "negative_signal"       = "http://purl.obolibrary.org/obo/fio#NegativeSignal",
-  "positive_signal"       = "http://purl.obolibrary.org/obo/fio#PositiveSignal",
-  "perf_gap"              = "http://purl.obolibrary.org/obo/fio#PerformanceGap",
-  "perf_trend_pos"        = "http://purl.obolibrary.org/obo/fio#PerformanceTrendPositive",
-  "perf_trend_neg"        = "http://purl.obolibrary.org/obo/fio#PerformanceTrendNegative"
-)
-
 # Helper functions
 background_aves <- function(ids, vals){
   masks <- lapply(ids, FUN=function(id,idz){idz != id}, idz=ids)

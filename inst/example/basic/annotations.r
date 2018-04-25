@@ -5,14 +5,7 @@ library(dplyr, warn.conflicts = FALSE)
 # Annotation functions need to be aware of column names apriori
 # Passing col_spec here, but it is unused
 
-# URIs specific to this annotation set
-uri_lookup <- list(
-  "has_mastery"     = "http://purl.obolibrary.org/obo/fio#FIO_0000086",
-  "has_downward"    = "http://purl.obolibrary.org/obo/fio#DownwardPerformance"
-)
-
 # Helper functions
-
 eval_mastery <- function(x){
   # if any score is above a 16, has mastery
   if(any(x > 15)){ return(TRUE) }
@@ -50,4 +43,3 @@ annotate_downtrend <- function(data, col_spec){
     summarise_at(.funs=eval_downward, .vars=c('score')) %>%
     rename_at(.vars=c('score'), .funs=function(x){'has_downward'})
 }
-
