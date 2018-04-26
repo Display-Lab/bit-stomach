@@ -17,7 +17,9 @@ main <- function(config_path = NULL, ...) {
 #' @title Digestion
 #' @describeIn main
 #' @param config Runtime configuration
-digestion <- function(config){
+digestion <- function(config, verbose=FALSE){
+
+  if(verbose){ print(config)}
   # Read data
   raw_data <- read_data(config$data_path)
 
@@ -29,15 +31,18 @@ digestion <- function(config){
 
   # Process data and generate annotations
   annotations <- annotate(idd_data, anno_env, config$col_spec)
+  if(verbose){ print(annotations)}
 
   # Filter annotations to get dispositions
   dispositions <- distill_annotations(annotations, config$uri_lookup)
+  if(verbose){ print(dispositions)}
 
   # Create performers table as precursor to json-ification
   performer_table <- performers(dispositions, "http://www.example.com/#", config$uri_lookup)
 
   # Build the json-ld situation
   situation_json <- build_situation(performer_table, config$uri_lookup)
+  if(verbose){ print(situation_json)}
 
   # Write Situation to disk
   persist_to_disk(situation_json, config$output_dir)
