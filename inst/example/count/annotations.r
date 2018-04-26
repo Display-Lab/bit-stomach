@@ -1,4 +1,5 @@
 library(dplyr, warn.conflicts = FALSE)
+library(utils)
 
 # Annotator functions for example situation
 # How to pass a guideline or static comparator into the annotation?
@@ -20,33 +21,24 @@ eval_perf_gap <- function(val, bkgd){
   val <= cutoff
 }
 
-eval_perf_trend_neg <- function(x){
-  len <- length(x)
-  tail <- x[(len-2):len]
-  body <- x[1:(len-3)]
-  body_mean <- mean(body)
-  tail_mean <- mean(tail)
-  tail_slope <- lm(i~tail, list(i=1:3,tail=tail))$coefficients['tail']
-  if(tail_mean < body_mean && tail_slope < 1){
+eval_perf_trend_neg <- function(vals){
+  tail <- tail(vals, 3)
+  tail_slope <- lm(tail~x, list(x=1:3,tail=tail))$coefficients['x']
+  if(tail_slope <= -0.05){
     return(TRUE)
   }else{
     return(FALSE)
   }
 }
 
-eval_perf_trend_pos <- function(x){
-  len <- length(x)
-  tail <- x[(len-2):len]
-  body <- x[1:(len-3)]
-  body_mean <- mean(body)
-  tail_mean <- mean(tail)
-  tail_slope <- lm(i~tail, list(i=1:3,tail=tail))$coefficients['tail']
-  if(tail_mean > body_mean && tail_slope > 1){
+eval_perf_trend_pos <- function(vals){
+  tail <- tail(vals, 3)
+  tail_slope <- lm(tail~x, list(x=1:3,tail=tail))$coefficients['x']
+  if(tail_slope >= 0.05){
     return(TRUE)
   }else{
     return(FALSE)
   }
-
 }
 
 # Annotation functions
