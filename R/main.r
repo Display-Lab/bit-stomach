@@ -8,15 +8,21 @@ main <- function(config_path = NULL, verbose=FALSE, ...) {
   # Build configuration
   run_config <- build_configuration(config_path, ...)
 
-  # TODO Merge additional uri_lookup from spek
+  # TODO Merge uri_lookup from spek into config
 
-  # Run application logic
+  # Ingest performance data and annotate performers based on performance data
   digestion(run_config, verbose)
+
+  # TODO Merge performers list and annotations with spek performers
+
+  # TODO Persist updated spek to disk
 }
 
 #' @title Digestion
 #' @describeIn main
 #' @param config Runtime configuration
+#' @param verbose Print intermediate data structures.  Defaults to FALSE.
+#' @return list of performers and annotations
 digestion <- function(config, verbose=FALSE){
 
   if(verbose == T){ print(config)}
@@ -39,6 +45,8 @@ digestion <- function(config, verbose=FALSE){
 
   # Create performers table as precursor to json-ification
   performer_table <- performers(dispositions, "http://www.example.com/#", config$uri_lookup)
+
+  # TODO: Build performers json-ld
 
   # Build the json-ld situation
   situation_json <- build_situation(performer_table, config$uri_lookup)
