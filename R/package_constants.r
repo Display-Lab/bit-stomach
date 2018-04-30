@@ -16,5 +16,5 @@ BS$DEFAULT_COL_SPEC <- list(
 )
 
 BS$DEFAULT_APP_ONTO_URL <- "https://inference.es/app/onto#"
-
 BS$HAS_PERFORMERS_URI <- "http://purl.obolibrary.org/obo/fio#HasPerformer"
+BS$DEFAULT_VERBOSE <- FALSE

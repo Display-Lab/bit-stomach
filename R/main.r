@@ -4,11 +4,12 @@
 #' @param ... List of configuration overrides passed to build_config
 #' @seealso build_configuration
 #' @export
-main <- function(config_path = NULL, verbose=FALSE, ...) {
+main <- function(config_path = NULL, ...) {
   # Build configuration
   run_config <- build_configuration(config_path, ...)
 
   # TODO Merge uri_lookup from spek into config
+
 
   # Ingest performance data and annotate performers based on performance data
   digestion(run_config, verbose)
@@ -21,11 +22,10 @@ main <- function(config_path = NULL, verbose=FALSE, ...) {
 #' @title Digestion
 #' @describeIn main
 #' @param config Runtime configuration
-#' @param verbose Print intermediate data structures.  Defaults to FALSE.
 #' @return list of performers and annotations
-digestion <- function(config, verbose=FALSE){
+digestion <- function(config){
 
-  if(verbose == T){ print(config)}
+  if(config$verbose == T){ print(config)}
   # Read data
   raw_data <- read_data(config$data_path)
 
@@ -37,11 +37,11 @@ digestion <- function(config, verbose=FALSE){
 
   # Process data and generate annotations
   annotations <- annotate(idd_data, anno_env, config$col_spec)
-  if(verbose == T){ print(annotations)}
+  if(config$verbose == T){ print(annotations)}
 
   # Filter annotations to get dispositions
   dispositions <- distill_annotations(annotations, config$uri_lookup)
-  if(verbose == T){ print(dispositions)}
+  if(config$verbose == T){ print(dispositions)}
 
   # Create performers table as precursor to json-ification
   performer_table <- performers(dispositions, "http://www.example.com/#", config$uri_lookup)
@@ -50,7 +50,7 @@ digestion <- function(config, verbose=FALSE){
 
   # Build the json-ld situation
   situation_json <- build_situation(performer_table, config$uri_lookup)
-  if(verbose == T){ print(situation_json)}
+  if(config$verbose == T){ print(situation_json)}
 
   # Write Situation to disk
   persist_to_disk(situation_json, config$output_dir)

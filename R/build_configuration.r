@@ -12,6 +12,7 @@
 #'    id_cols
 #'    perf_cols
 #'    time_col
+#'    verbose
 #' @import config
 #' @importFrom here here
 #' @importFrom utils modifyList
@@ -39,6 +40,7 @@ build_configuration <- function(config_path=NULL, ...) {
 
 #' @title Default Configuration
 #' @description Provide default configuration values
+#' @describeIn Build Configuration
 default_config <- function(){
   list(
     uri_lookup = BS$DEFAULT_URI_LOOKUP,
@@ -46,7 +48,8 @@ default_config <- function(){
     data_path = system.file("example", "basic", "performer-data.csv", package = "bitstomach", mustWork = T),
     output_dir = tempdir(),
     annotation_path = system.file("example", "basic", "annotations.r", package = "bitstomach", mustWork = T),
-    col_spec = BS$DEFAULT_COL_SPEC
+    col_spec = BS$DEFAULT_COL_SPEC,
+    verbose = BS$DEFAULT_VERBOSE
   )
 }
 
