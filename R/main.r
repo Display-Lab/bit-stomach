@@ -1,18 +1,20 @@
 #' @title Main
-#' @description The entry function with all the side effects
+#' @description The entry function with all the side effects.
 #' @param config_path Path to configuration yaml. Use NULL to use internal defaults.
 #' @param ... List of configuration overrides passed to build_config
 #' @seealso build_configuration
 #' @export
-main <- function(config_path = NULL, ...) {
+main <- function(spek_path = NULL, config_path = NULL, ...) {
+  # Read spek
+  spek <- read_spek(spek_path)
+  # Extract URI lookup and add to
+  spek_uri <- extract_uri_lookup(spek)
+
   # Build configuration
-  run_config <- build_configuration(config_path, ...)
-
-  # TODO Merge uri_lookup from spek into config
-
+  run_config <- build_configuration(config_path, uri_lookup=spek_uri, ...)
 
   # Ingest performance data and annotate performers based on performance data
-  digestion(run_config, verbose)
+  digestion(run_config)
 
   # TODO Merge performers list and annotations with spek performers
 
@@ -20,7 +22,7 @@ main <- function(config_path = NULL, ...) {
 }
 
 #' @title Digestion
-#' @describeIn main
+#' @describeIn Main
 #' @param config Runtime configuration
 #' @return list of performers and annotations
 digestion <- function(config){
