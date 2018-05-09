@@ -6,9 +6,9 @@
 read_spek <- function(spek_path = NULL){
   if(is.null(spek_path)){
     path <- system.file("example","basic","spek.json",package="bitstomach")
+  } else {
+    path <- spek_path
   }
-
-  #jsonlite::fromJSON(path, simplifyVector = F)
 
   spek_str <- readr::read_file(path)
   expanded <- jsonld::jsonld_expand(spek_str )

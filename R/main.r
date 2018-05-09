@@ -19,7 +19,7 @@ main <- function(spek_path = NULL, config_path = NULL, ...) {
 
   # Write Spek with annotations added to disk
   spek_json <- jsonlite::toJSON(spek_plus, auto_unbox = T)
-  persist_to_disk(spek_json, config$output_dir)
+  persist_to_disk(spek_json, run_config$output_dir)
 }
 
 #' @title Digestion

@@ -19,7 +19,7 @@ merge_performers <- function(spek, performers_table){
 
   # append non-shared performers
   matching_idxs <- match(p_ids, s_ids, nomatch=NULL)
-  matching_idxs <- m_idxs[!is.na(m_idxs)]
+  matching_idxs <- matching_idxs[!is.na(matching_idxs)]
 
   sp_merged <- c(sp_updated, pt_list[-matching_idxs], use.names=FALSE)
 
