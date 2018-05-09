@@ -14,6 +14,8 @@ distill_annotations <- function(annotations) {
     #group_by(id)
 }
 
+#' @title value listify
+#' @description Wrap individual values in a list keyed by '@value'.  Puts table in correct format for conversion to json-ld
 value_listify <- function(indata){
   print(indata)
   listed <- lapply(indata, FUN=function(x){list('@value'=x)})

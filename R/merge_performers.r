@@ -2,7 +2,6 @@
 #' @description Apply annotations to performers in spek.
 #' @details Adds newly found performers and updates esiting performers in spek
 #' @import jsonlite
-
 merge_performers <- function(spek, performers_table){
 
   pt_list <- jsonlite::fromJSON(jsonlite::toJSON(performers_table), simplifyDataFrame = F, simplifyVector = T)
@@ -19,8 +18,6 @@ merge_performers <- function(spek, performers_table){
   sp_updated <- lapply(spek_performers, FUN=update_performer, annotated_performers=pt_list)
 
   # append non-shared performers
-
-  # update shared ids
   matching_idxs <- match(p_ids, s_ids, nomatch=NULL)
   matching_idxs <- m_idxs[!is.na(m_idxs)]
 
@@ -33,6 +30,8 @@ merge_performers <- function(spek, performers_table){
   return(spek_plus)
 }
 
+#' @title update performer
+#' @description Update spek performer (list) from list of performers with annotations.
 update_performer <- function(sp, annotated_performers){
   ap <- annotated_performers[[sp$`@id`]]
   if(is.null(ap)){
@@ -43,6 +42,8 @@ update_performer <- function(sp, annotated_performers){
 }
 
 # Modify list and murge unnamed values
+#' @title Mundify List
+#' @description Essentially modifyList that also adds unnamed elements if the identical value isn't already present.
 mundify_list <- function (x, val, keep.null = FALSE)
 {
   stopifnot(is.list(x), is.list(val))

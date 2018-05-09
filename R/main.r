@@ -26,7 +26,7 @@ main <- function(spek_path = NULL, config_path = NULL, ...) {
 #' @describeIn Main
 #' @param config Runtime configuration
 #' @details The config parameter contains
-#' @return list of performers and annotations as a table
+#' @return table of performers and their annotations
 digestion <- function(config){
 
   if(config$verbose == T){ print(config)}
