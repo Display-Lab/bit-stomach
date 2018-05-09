@@ -4,7 +4,6 @@
 #' @param ... List of configuration overrides
 #' @return a configuration
 #' @note The list of overrides can include any values in the config:
-#'    uri_lookup
 #'    app_onto_url
 #'    data_path
 #'    output_dir
@@ -12,6 +11,7 @@
 #'    id_cols
 #'    perf_cols
 #'    time_col
+#'    verbose
 #' @import config
 #' @importFrom here here
 #' @importFrom utils modifyList
@@ -39,14 +39,15 @@ build_configuration <- function(config_path=NULL, ...) {
 
 #' @title Default Configuration
 #' @description Provide default configuration values
+#' @describeIn Build Configuration
 default_config <- function(){
   list(
-    uri_lookup = BS$DEFAULT_URI_LOOKUP,
     app_onto_url = BS$DEFAULT_APP_ONTO_URL,
     data_path = system.file("example", "basic", "performer-data.csv", package = "bitstomach", mustWork = T),
     output_dir = tempdir(),
     annotation_path = system.file("example", "basic", "annotations.r", package = "bitstomach", mustWork = T),
-    col_spec = BS$DEFAULT_COL_SPEC
+    col_spec = BS$DEFAULT_COL_SPEC,
+    verbose = BS$DEFAULT_VERBOSE
   )
 }
 

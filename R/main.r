@@ -1,25 +1,35 @@
 #' @title Main
-#' @description The entry function with all the side effects
+#' @description The entry function with all the side effects.
 #' @param config_path Path to configuration yaml. Use NULL to use internal defaults.
 #' @param ... List of configuration overrides passed to build_config
 #' @seealso build_configuration
 #' @export
-main <- function(config_path = NULL, verbose=FALSE, ...) {
+main <- function(spek_path = NULL, config_path = NULL, ...) {
+  # Read spek
+  spek <- read_spek(spek_path)
+
   # Build configuration
   run_config <- build_configuration(config_path, ...)
 
-  # TODO Merge additional uri_lookup from spek
+  # Ingest performance data and annotate performers based on performance data
+  performers_table <- digestion(run_config)
 
-  # Run application logic
-  digestion(run_config, verbose)
+  # Merge performer annotations with given spek
+  spek_plus <- merge_performers(spek, performers_table)
+
+  # Write Spek with annotations added to disk
+  spek_json <- jsonlite::toJSON(spek_plus, auto_unbox = T)
+  persist_to_disk(spek_json, config$output_dir)
 }
 
 #' @title Digestion
-#' @describeIn main
+#' @describeIn Main
 #' @param config Runtime configuration
-digestion <- function(config, verbose=FALSE){
+#' @details The config parameter contains
+#' @return list of performers and annotations as a table
+digestion <- function(config){
 
-  if(verbose == T){ print(config)}
+  if(config$verbose == T){ print(config)}
   # Read data
   raw_data <- read_data(config$data_path)
 
@@ -31,19 +41,12 @@ digestion <- function(config, verbose=FALSE){
 
   # Process data and generate annotations
   annotations <- annotate(idd_data, anno_env, config$col_spec)
-  if(verbose == T){ print(annotations)}
+  if(config$verbose == T){ print(annotations)}
 
   # Filter annotations to get dispositions
-  dispositions <- distill_annotations(annotations, config$uri_lookup)
-  if(verbose == T){ print(dispositions)}
+  dispositions <- distill_annotations(annotations)
+  if(config$verbose == T){ print(dispositions)}
 
   # Create performers table as precursor to json-ification
-  performer_table <- performers(dispositions, "http://www.example.com/#", config$uri_lookup)
-
-  # Build the json-ld situation
-  situation_json <- build_situation(performer_table, config$uri_lookup)
-  if(verbose == T){ print(situation_json)}
-
-  # Write Situation to disk
-  persist_to_disk(situation_json, config$output_dir)
+  performers(dispositions, config$app_onto_url)
 }

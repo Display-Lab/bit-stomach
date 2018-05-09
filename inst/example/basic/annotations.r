@@ -30,16 +30,18 @@ eval_downward <- function(x){
 
 # Annotation functions
 annotate_mastery <- function(data, col_spec){
+  uri <- "http://purl.obolibrary.org/obo/fio#HasMastery"
   data %>%
     group_by(id) %>%
     summarise_at(.funs=eval_mastery, .vars=c('score')) %>%
-    rename_at(.vars=c('score'), .funs=function(x){'has_mastery'})
+    rename_at(.vars=c('score'), .funs=function(x){uri})
 }
 
 # Examine each performer for hasDownwardTrend
 annotate_downtrend <- function(data, col_spec){
+  uri <- "http://purl.obolibrary.org/obo/fio#HasDownward"
   data %>%
     group_by(id) %>%
     summarise_at(.funs=eval_downward, .vars=c('score')) %>%
-    rename_at(.vars=c('score'), .funs=function(x){'has_downward'})
+    rename_at(.vars=c('score'), .funs=function(x){uri})
 }
