@@ -4,7 +4,6 @@
 #' @param ... List of configuration overrides
 #' @return a configuration
 #' @note The list of overrides can include any values in the config:
-#'    uri_lookup
 #'    app_onto_url
 #'    data_path
 #'    output_dir
@@ -43,7 +42,6 @@ build_configuration <- function(config_path=NULL, ...) {
 #' @describeIn Build Configuration
 default_config <- function(){
   list(
-    uri_lookup = BS$DEFAULT_URI_LOOKUP,
     app_onto_url = BS$DEFAULT_APP_ONTO_URL,
     data_path = system.file("example", "basic", "performer-data.csv", package = "bitstomach", mustWork = T),
     output_dir = tempdir(),

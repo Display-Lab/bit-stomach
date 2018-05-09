@@ -5,11 +5,18 @@
 #'   Convert annoation short names to full url
 #' @import dplyr
 #' @importFrom tidyr gather
-distill_annotations <- function(annotations, uri_lookup) {
+distill_annotations <- function(annotations) {
   annotations %>%
     tidyr::gather(key = "disposition", value = "value", -id) %>%
     filter(value == T) %>%
     select(-value) %>%
-    group_by(id) %>%
-    mutate(disposition = recode(disposition, !!!uri_lookup))
+    mutate(disposition=value_listify(disposition))
+    #group_by(id)
+}
+
+value_listify <- function(indata){
+  print(indata)
+  listed <- lapply(indata, FUN=function(x){list('@value'=x)})
+  print(listed)
+  return(listed)
 }
