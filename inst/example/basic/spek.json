@@ -1,19 +1,18 @@
 {
   "@context": {
-	  "schema": {"@vocab": "http://schema.org/"},
-    "fio": {
-      "performer":        "http://purl.obolibrary.org/obo/fio#FIO_0000001",
-      "spek":             "http://purl.obolibrary.org/obo/fio#SPEK",
-      "has_performer":    "http://purl.obolibrary.org/obo/fio#HasPerformer",
-      "uses_template":    "http://purl.obolibrary.org/obo/fio#UsesTemplate",
-      "uses_ISR":         "http://purl.obolibrary.org/obo/fio#UsesISR",
-      "rid_template":     "http://purl.obolibrary.org/obo/fio#RIDTemplate",
-      "related_location": "https://purl.obolibrary.org/need/definiton#RELATED_LOCATION",
-      "spek":             "http://purl.obolibrary.org/obo/fio#Spek",
-      "ISR":              "http://purl.obolibrary.org/obo/fio#ISR",
-      "has_mastery":      "http://purl.obolibrary.org/obo/fio#HasMastery",
-      "has_downward":     "http://purl.obolibrary.org/obo/fio#HasDownward"
-    },
+    "@vocab": "http://schema.org/",
+    "fio": "http://purl.obolibrary.org/obo/fio#",
+    "fio:performer":        "http://purl.obolibrary.org/obo/fio#FIO_0000001",
+    "fio:spek":             "http://purl.obolibrary.org/obo/fio#SPEK",
+    "fio:has_performer":    "http://purl.obolibrary.org/obo/fio#HasPerformer",
+    "fio:uses_template":    "http://purl.obolibrary.org/obo/fio#UsesTemplate",
+    "fio:uses_ISR":         "http://purl.obolibrary.org/obo/fio#UsesISR",
+    "fio:rid_template":     "http://purl.obolibrary.org/obo/fio#RIDTemplate",
+    "fio:related_location": "https://purl.obolibrary.org/need/definiton#RELATED_LOCATION",
+    "fio:spek":             "http://purl.obolibrary.org/obo/fio#Spek",
+    "fio:ISR":              "http://purl.obolibrary.org/obo/fio#ISR",
+    "fio:has_mastery":      "http://purl.obolibrary.org/obo/fio#HasMastery",
+    "fio:has_downward":     "http://purl.obolibrary.org/obo/fio#HasDownward",
     "has_part": "http://purl.obolibrary.org/obo/bfo#BFO_0000051",
     "has_disposition": "http://purl.obolibrary.org/obo/RO_0000091",
     "client_spek": "https://inference.es/app/onto#IPLARC_SPEK"
@@ -22,14 +21,14 @@
   "@type": "http://purl.obolibrary.org/obo/fio#SPEK",
   "fio:related_location": {
       "@type": "Organization",
-      "schema:address": {
+      "address": {
         "@type": "PostalAddress",
-        "schema:addressCountry": "United States",
-        "schema:addressLocality": "Ann Arbor",
-        "schema:addressRegion": "Michigan",
-        "schema:postalCode": "48109",
-        "schema:streetAddress": "903 South Univeristy",
-        "schema:name": "IPLARC-Clinic"
+        "addressCountry": "United States",
+        "addressLocality": "Ann Arbor",
+        "addressRegion": "Michigan",
+        "postalCode": "48109",
+        "streetAddress": "903 South Univeristy",
+        "name": "IPLARC-Clinic"
       }
     },
   "fio:has_performer": [
@@ -55,6 +54,10 @@
       "has_disposition": [
         "http://purl.obolibrary.org/obo/fio#PreventionFocus",
         "http://purl.obolibrary.org/obo/fio#CapbilityBarrier"]
+    },
+    {
+      "@id": "https://inference.es/app/onto#Frank",
+      "@type": "http://purl.obolibrary.org/obo/fio#FIO_0000001"
     }],
   "fio:uses_ISR": [
     {
