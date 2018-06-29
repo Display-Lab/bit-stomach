@@ -9,3 +9,8 @@ default_config()
 \description{
 Provide default configuration values
 }
+\section{Functions}{
+\itemize{
+\item \code{default_config}: Configuration
+}}
+

@@ -9,3 +9,9 @@ digestion(config)
 \arguments{
 \item{config}{Runtime configuration}
 }
+\value{
+table of performers and their annotations
+}
+\details{
+The config parameter contains
+}

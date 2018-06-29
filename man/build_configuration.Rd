@@ -19,7 +19,6 @@ Build runtime configuration by reading configuration from path or use defaults.
 }
 \note{
 The list of overrides can include any values in the config:
-   uri_lookup
    app_onto_url
    data_path
    output_dir
@@ -27,4 +26,5 @@ The list of overrides can include any values in the config:
    id_cols
    perf_cols
    time_col
+   verbose
 }

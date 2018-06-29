@@ -4,7 +4,7 @@
 \alias{performers}
 \title{Performers}
 \usage{
-performers(dispositions, app_onto_url, uri_lookup)
+performers(dispositions, app_onto_url)
 }
 \description{
 Condense data frame with single row per performer and list of their annotations.

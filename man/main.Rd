@@ -4,7 +4,7 @@
 \alias{main}
 \title{Main}
 \usage{
-main(config_path = NULL, ...)
+main(spek_path = NULL, config_path = NULL, ...)
 }
 \arguments{
 \item{config_path}{Path to configuration yaml. Use NULL to use internal defaults.}
@@ -12,7 +12,7 @@ main(config_path = NULL, ...)
 \item{...}{List of configuration overrides passed to build_config}
 }
 \description{
-The entry function with all the side effects
+The entry function with all the side effects.
 }
 \seealso{
 build_configuration

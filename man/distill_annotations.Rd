@@ -4,7 +4,7 @@
 \alias{distill_annotations}
 \title{Distill Annotations}
 \usage{
-distill_annotations(annotations, uri_lookup)
+distill_annotations(annotations)
 }
 \description{
 Prepare annotations for jsonld export:
