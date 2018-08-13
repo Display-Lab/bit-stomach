@@ -1,37 +1,34 @@
 {
   "@context": {
     "@vocab": "http://schema.org/",
-    "fio": "http://purl.obolibrary.org/obo/fio#",
-    "fio:performer":        "http://purl.obolibrary.org/obo/fio#FIO_0000001",
-    "fio:spek":             "http://purl.obolibrary.org/obo/fio#SPEK",
-    "fio:has_performer":    "http://purl.obolibrary.org/obo/fio#HasPerformer",
-    "fio:uses_template":    "http://purl.obolibrary.org/obo/fio#UsesTemplate",
-    "fio:uses_ISR":         "http://purl.obolibrary.org/obo/fio#UsesISR",
-    "fio:rid_template":     "http://purl.obolibrary.org/obo/fio#RIDTemplate",
-    "fio:related_location": "https://purl.obolibrary.org/need/definiton#RELATED_LOCATION",
-    "fio:spek":             "http://purl.obolibrary.org/obo/fio#Spek",
-    "fio:ISR":              "http://purl.obolibrary.org/obo/fio#ISR",
-    "fio:normative_comparator":  "http://purl.obolibrary.org/obo/fio#NormativeComparator",
-    "fio:prevention_framing":    "http://purl.obolibrary.org/obo/fio#PreventionFraming",
-    "fio:promotion_framing":     "http://purl.obolibrary.org/obo/fio#PromotionFraming",
-    "fio:performer_cardinality": "http://purl.obolibrary.org/obo/fio#PerformerCardinality",
-    "fio:time_cardinality":      "http://purl.obolibrary.org/obo/fio#TimeCardinality",
-    "fio:capability_barrier":    "http://purl.obolibrary.org/obo/fio#CapbilityBarrier",
-    "fio:prevention_focus":      "http://purl.obolibrary.org/obo/fio#PreventionFocus",
-    "fio:promotion_focus":       "http://purl.obolibrary.org/obo/fio#PromotionFocus",
-    "fio:negative_signal":       "http://purl.obolibrary.org/obo/fio#NegativeSignal", 
-    "fio:positive_signal":       "http://purl.obolibrary.org/obo/fio#PositiveSignal",
-    "fio:perf_gap":              "http://purl.obolibrary.org/obo/fio#PerformanceGap",
-    "fio:perf_trend_pos":        "http://purl.obolibrary.org/obo/fio#PerformanceTrendPositive",
-    "fio:perf_trend_neg":        "http://purl.obolibrary.org/obo/fio#PerformanceTrendNegative",
-    "fio:related_location":      "https://purl.obolibrary.org/need/definiton#RELATED_LOCATION",
+    "slowmo": "http://example.com/slowmo#",
+    "slowmo:performer":        "http://example.com/slowmo#ascribee",
+    "slowmo:has_performer":    "http://example.com/slowmo#slowmo_0000001",
+    "slowmo:uses_template":    "http://example.com/slowmo#slowmo_0000003",
+    "slowmo:uses_ISR":         "http://example.com/slowmo#slowmo_0000002",
+    "slowmo:rid_template":     "http://example.com/slowmo#template",
+    "app:related_location": "http://example.com/app#related_location",
+    "slowmo:spek":           "http://example.com/slowmo#slowmo_0000140",
+    "cpo:ISR":              "http://example.com/cpo#cpo_0000029",
+    "slowmo:normative_comparator":  "http://example.com/slowmo#normative_comparator",
+    "cpo:prevention_framing":    "http://example.com/cpo#cpo_0000038",
+    "cpo:promotion_framing":     "http://example.com/cpo#cpo_0000037",
+    "slowmo:performer_cardinality": "http://example.com/slowmo#performer_cardinality",
+    "slowmo:time_cardinality":      "http://example.com/slowmo#time_cardinality",
+    "slowmo:capability_barrier": "http://example.com/slowmo#slowmo_0000132",
+    "cpo:prevention_focus":      "http://example.com/cpo#cpo_0000036",
+    "cpo:promotion_focus":       "http://example.com/cpo#cpo_0000035",
+    "slowmo:perf_gap":              "http://example.com/slowmo#performance_gap",
+    "slowmo:perf_trend_pos":        "http://example.com/slowmo#performance_trend_pos",
+    "slowmo:perf_trend_neg":        "http://example.com/slowmo#performance_trend_neg",
+    "app:related_location":      "http://example.com/app#related_location",
     "has_part": "http://purl.obolibrary.org/obo/bfo#BFO_0000051",
     "has_disposition": "http://purl.obolibrary.org/obo/RO_0000091",
-    "client_spek": "https://inference.es/app/onto#IPLARC_SPEK"
+    "client_spek": "http://example.com/app#clientname_spek"
   },
-  "@id": "https://inference.es/app/onto#IPLARC_SPEK",
-  "@type": "http://purl.obolibrary.org/obo/fio#SPEK",
-  "fio:related_location": {
+  "@id": "http://example.com/app#clientname_spek",
+  "@type": "http://example.com/slowmo#slowmo_0000140",
+  "app:related_location": {
       "@type": "Organization",
       "address": {
         "@type": "PostalAddress",
@@ -40,68 +37,75 @@
         "addressRegion": "Michigan",
         "postalCode": "48109",
         "streetAddress": "903 South Univeristy",
-        "name": "IPLARC-Clinic"
+        "name": "CLIENTNAME-Clinic"
       }
     },
-  "fio:has_performer": [
+  "slowmo:has_performer": [
     {
-      "@id": "https://inference.es/app/onto#Alice",
-      "@type": "http://purl.obolibrary.org/obo/fio#FIO_0000001"
+      "@id": "http://example.com/app#Alice",
+      "@type": "http://example.com/slowmo#ascribee"
     },
     {
-      "@id": "https://inference.es/app/onto#Carol",
-      "@type": "http://purl.obolibrary.org/obo/fio#FIO_0000001",
-      "has_disposition": "http://purl.obolibrary.org/obo/fio#CapabilityBarrier"
+      "@id": "http://example.com/app#Carol",
+      "@type": "http://example.com/slowmo#ascribee",
+      "has_disposition": "http://example.com/slowmo#slowmo_0000132"
     },
     {
-      "@id": "https://inference.es/app/onto#Dan",
-      "@type": "http://purl.obolibrary.org/obo/fio#FIO_0000001",
+      "@id": "http://example.com/app#Dan",
+      "@type": "http://example.com/slowmo#ascribee",
       "has_disposition": [
-        "http://purl.obolibrary.org/obo/fio#PromotionFocus",
-        "http://purl.obolibrary.org/obo/fio#CapbilityBarrier"]
+        "http://example.com/cpo#cpo_0000035",
+        "http://example.com/slowmo#slowmo_0000132"]
     },
     {
-      "@id": "https://inference.es/app/onto#Elaine",
-      "@type": "http://purl.obolibrary.org/obo/fio#FIO_0000001",
+      "@id": "http://example.com/app#Elaine",
+      "@type": "http://example.com/slowmo#ascribee",
       "has_disposition": [
-        "http://purl.obolibrary.org/obo/fio#PreventionFocus",
-        "http://purl.obolibrary.org/obo/fio#CapbilityBarrier"]
+        "http://example.com/cpo#cpo_0000036",
+        "http://example.com/slowmo#slowmo_0000132"]
     },
     {
-      "@id": "https://inference.es/app/onto#Frank",
-      "@type": "http://purl.obolibrary.org/obo/fio#FIO_0000001"
+      "@id": "http://example.com/app#Frank",
+      "@type": "http://example.com/slowmo#ascribee"
     }],
-  "fio:uses_ISR": [
+  "slowmo:uses_ISR": [
     {
-      "@id": "https://inference.es/app/onto#ISRnamedDuq",
-      "@type": "http://purl.obolibrary.org/obo/fio#ISR"
+      "@id": "http://example.com/app#ISRnamedDuq",
+      "@type": "http://example.com/cpo#cpo_0000029"
     },
     {
-      "@id": "https://inference.es/app/onto#ISRnamedBar",
-      "@type": "http://purl.obolibrary.org/obo/fio#ISR"
+      "@id": "http://example.com/app#ISRnamedBar",
+      "@type": "http://example.com/cpo#cpo_0000029"
     },
     {
-      "@id": "https://inference.es/app/onto#ISRnamedFoo",
-      "@type": "http://purl.obolibrary.org/obo/fio#ISR"
+      "@id": "http://example.com/app#ISRnamedFoo",
+      "@type": "http://example.com/cpo#cpo_0000029"
     }
   ],
-  "fio:uses_template": [
+  "slowmo:uses_template": [
     {
-      "@id": "https://inference.es/app/onto#templateNamedBaz",
-      "@type": "http://purl.obolibrary.org/obo/fio#RIDTemplate",
-      "has_disposition": "http://purl.obolibrary.org/obo/fio#NormativeComparator"
+      "@id": "https://inferences.es/app/onto#TPLT001"
     },
     {
-      "@id": "https://inference.es/app/onto#templateNamedMab",
-      "@type": "http://purl.obolibrary.org/obo/fio#RIDTemplate",
-      "has_disposition": "http://purl.obolibrary.org/obo/fio#PromotionFraming"
+      "@id": "https://inferences.es/app/onto#TPLT002"
     },
     {
-      "@id": "https://inference.es/app/onto#templateNamedMuq",
-      "@type": "http://purl.obolibrary.org/obo/fio#RIDTemplate",
-      "has_disposition": "http://purl.obolibrary.org/obo/fio#PreventionFraming",
-      "fio:time_cardinality": 3,
-      "fio:performer_cardinality": 3
+      "@id": "https://inferences.es/app/onto#TPLT003"
+    },
+    {
+      "@id": "https://inferences.es/app/onto#TPLT004"
+    },
+    {
+      "@id": "https://inferences.es/app/onto#TPLT005"
+    },
+    {
+      "@id": "https://inferences.es/app/onto#TPLT006"
+    },
+    {
+      "@id": "https://inferences.es/app/onto#TPLT007"
+    },
+    {
+      "@id": "https://inferences.es/app/onto#TPLTBlank"
     }
   ]
 }
