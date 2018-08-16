@@ -18,10 +18,10 @@ merge_performers <- function(spek, performers_table){
   sp_updated <- lapply(spek_performers, FUN=update_performer, annotated_performers=pt_list)
 
   # append non-shared performers
-  matching_idxs <- match(p_ids, s_ids, nomatch=NULL)
-  matching_idxs <- matching_idxs[!is.na(matching_idxs)]
+  non_matching_mask <- !(p_ids %in% s_ids)
+  performers_in_pt_but_not_spek <- pt_list[non_matching_mask]
 
-  sp_merged <- c(sp_updated, pt_list[-matching_idxs], use.names=FALSE)
+  sp_merged <- c(sp_updated, performers_in_pt_but_not_spek, use.names=FALSE)
 
   # Update performers section of spek
   spek_plus <- spek
