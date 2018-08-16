@@ -7,18 +7,23 @@ library(utils)
 #    col_spec + static_values
 
 # Helper functions
-background_aves <- function(ids, vals){
-  masks <- lapply(ids, FUN=function(id,idz){idz != id}, idz=ids)
-  sapply(masks, FUN=function(mask, valz){mean(valz[mask])}, vals)
+# For each value, calc mean of OTHER values.
+background_mean <- function(vals){
+  sapply(1:length(vals),
+         FUN=function(idx,values){mean(values[-idx])},
+         values=vals)
 }
 
 eval_capability_barrier <- function(x){
   all(x < 0.5)
 }
 
-eval_perf_gap <- function(val, bkgd){
-  cutoff <- 0.8 * bkgd
-  val <= cutoff
+eval_perf_gap_neg <- function(rates, backgrounds){
+  rates < 0.9 * backgrounds
+}
+
+eval_perf_gap_pos <- function(rates, backgrounds){
+  rates > 1.1 * backgrounds
 }
 
 eval_perf_trend_neg <- function(vals){
@@ -63,12 +68,24 @@ annotate_perf_trend_pos <- function(data, col_spec){
     summarize(perf_trend_pos=eval_perf_trend_pos(rate))
 }
 
-annotate_gap <- function(data, col_spec){
+annotate_perf_gap_pos <- function(data, col_spec){
   data %>%
     mutate(rate=numerator/denominator) %>%
+    group_by(timepoint) %>%
+    mutate(bkgd_rate = background_mean(rate),
+           perf_gap_pos=eval_perf_gap_pos(rate, bkgd_rate)) %>%
     group_by(id) %>%
-    summarize(mean_rate=mean(rate)) %>%
-    mutate(bkgd_rate = background_aves(id, mean_rate)) %>%
+    filter(timepoint == max(timepoint)) %>%
+    select(id, perf_gap_pos)
+}
+
+annotate_perf_gap_neg <- function(data, col_spec){
+  data %>%
+    mutate(rate=numerator/denominator) %>%
+    group_by(timepoint) %>%
+    mutate(bkgd_rate = background_mean(rate),
+           perf_gap_neg=eval_perf_gap_neg(rate, bkgd_rate)) %>%
     group_by(id) %>%
-    summarize(perf_gap=eval_perf_gap(mean_rate, bkgd_rate))
+    filter(timepoint == max(timepoint)) %>%
+    select(id, perf_gap_neg)
 }

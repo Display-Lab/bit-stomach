@@ -47,22 +47,15 @@
     },
     {
       "@id": "http://example.com/app#Carol",
-      "@type": "http://example.com/slowmo#ascribee",
-      "has_disposition": "http://example.com/slowmo#slowmo_0000132"
+      "@type": "http://example.com/slowmo#ascribee"
     },
     {
       "@id": "http://example.com/app#Dan",
-      "@type": "http://example.com/slowmo#ascribee",
-      "has_disposition": [
-        "http://example.com/cpo#cpo_0000035",
-        "http://example.com/slowmo#slowmo_0000132"]
+      "@type": "http://example.com/slowmo#ascribee"
     },
     {
       "@id": "http://example.com/app#Elaine",
-      "@type": "http://example.com/slowmo#ascribee",
-      "has_disposition": [
-        "http://example.com/cpo#cpo_0000036",
-        "http://example.com/slowmo#slowmo_0000132"]
+      "@type": "http://example.com/slowmo#ascribee"
     },
     {
       "@id": "http://example.com/app#Frank",

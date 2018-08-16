@@ -43,8 +43,11 @@ digestion <- function(config){
   annotations <- annotate(idd_data, anno_env, config$col_spec)
   if(config$verbose == T){ print(annotations)}
 
+  # URI Substitute annotations
+  uri_annotations <- swap_in_uris(annotations, config$uri_lookup)
+
   # Filter annotations to get dispositions
-  dispositions <- distill_annotations(annotations)
+  dispositions <- distill_annotations(uri_annotations)
   if(config$verbose == T){ print(dispositions)}
 
   # Create performers table as precursor to json-ification
