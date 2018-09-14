@@ -31,6 +31,7 @@ and subsequently written as functions in an annotations.r file.
 
 Annotate each performer with applicable attributes:
 - capability\_barrier
+
     ```
       Score above 10 for at least 3 consecutive time points
         or
