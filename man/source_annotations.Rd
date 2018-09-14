@@ -10,10 +10,12 @@ source_annotations(path)
 \item{path}{Path too annotations R file.}
 }
 \description{
-Source the annotations.r file which contain the fucntions to apply to the
-  data in order to make inferences about performers from the data.
+Source the annotations.r file which contain the fucntions to
+  apply to the data in order to make inferences about performers from the
+  data.
 }
 \note{
 Annotation functions will be passed two arguements: data and col_spec
-  The col_spec is a list of three character vectors: id_cols, ordering_cols, perf_cols
+  The col_spec is a list of three character vectors: id_cols, ordering_cols,
+  perf_cols
 }

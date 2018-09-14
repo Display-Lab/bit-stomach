@@ -5,7 +5,8 @@
 #' @importFrom readr read_file
 read_spek <- function(spek_path = NULL){
   if(is.null(spek_path)){
-    path <- system.file("example","basic","spek.json",package="bitstomach")
+    path <- system.file("example","basic",
+                        "spek.json", package = "bitstomach")
   } else {
     path <- spek_path
   }

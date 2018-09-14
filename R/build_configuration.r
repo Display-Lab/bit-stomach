@@ -20,9 +20,9 @@ build_configuration <- function(config_path=NULL, ...) {
   d_config <- default_config()
 
   # Read from config if supplied
-  if(is.null(config_path)){
+  if (is.null(config_path)){
     r_config <- list()
-  }else{
+  } else{
     r_config <- tryCatch(config::get(file = config_path, use_parent = F),
                          error=cfg_file_error )
   }
@@ -43,9 +43,11 @@ build_configuration <- function(config_path=NULL, ...) {
 default_config <- function(){
   list(
     app_onto_url = BS$DEFAULT_APP_ONTO_URL,
-    data_path = system.file("example", "basic", "performer-data.csv", package = "bitstomach", mustWork = T),
+    data_path = system.file("example", "basic", "performer-data.csv", 
+                            package = "bitstomach", mustWork = T),
     output_dir = tempdir(),
-    annotation_path = system.file("example", "basic", "annotations.r", package = "bitstomach", mustWork = T),
+    annotation_path = system.file("example", "basic", "annotations.r", 
+                                  package = "bitstomach", mustWork = T),
     col_spec = BS$DEFAULT_COL_SPEC,
     verbose = BS$DEFAULT_VERBOSE
   )
@@ -55,7 +57,7 @@ default_config <- function(){
 #' @description Emit warning and return empty list in event of error reading config file
 #' @importFrom rlang warn
 cfg_file_error <- function(e){
-  msg <- paste("Problem reading config file:", e$message, sep="\n  ")
+  msg <- paste("Problem reading config file:", e$message, sep = "\n  ")
   rlang::warn(msg)
   return(list())
 }

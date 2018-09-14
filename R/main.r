@@ -1,6 +1,8 @@
-#' @title Main
+#' @name main
+#' @title Main processing functions
 #' @description The entry function with all the side effects.
-#' @param config_path Path to configuration yaml. Use NULL to use internal defaults.
+#' @param config_path Path to configuration yaml. Use NULL to use internal
+#'   defaults.
 #' @param ... List of configuration overrides passed to build_config
 #' @seealso build_configuration
 #' @export
@@ -22,11 +24,13 @@ main <- function(spek_path = NULL, config_path = NULL, ...) {
   persist_to_disk(spek_json, run_config$output_dir)
 }
 
-#' @title Digestion
-#' @describeIn Main
-#' @param config Runtime configuration
+#' @description Annotation Digestions, used with cat spit.
+# #' @describeIn Main
+#' @param config Runtime configuration Object (not class set).
 #' @details The config parameter contains
 #' @return table of performers and their annotations
+#' @keywords internal
+#' @rdname main
 digestion <- function(config){
 
   if(config$verbose == T){ print(config)}

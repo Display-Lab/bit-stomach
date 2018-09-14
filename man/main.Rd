@@ -2,18 +2,33 @@
 % Please edit documentation in R/main.r
 \name{main}
 \alias{main}
-\title{Main}
+\alias{digestion}
+\title{Main processing functions}
 \usage{
 main(spek_path = NULL, config_path = NULL, ...)
+
+digestion(config)
 }
 \arguments{
-\item{config_path}{Path to configuration yaml. Use NULL to use internal defaults.}
+\item{config_path}{Path to configuration yaml. Use NULL to use internal
+defaults.}
 
 \item{...}{List of configuration overrides passed to build_config}
+
+\item{config}{Runtime configuration Object (not class set).}
+}
+\value{
+table of performers and their annotations
 }
 \description{
 The entry function with all the side effects.
+
+Annotation Digestions, used with cat spit.
+}
+\details{
+The config parameter contains
 }
 \seealso{
 build_configuration
 }
+\keyword{internal}

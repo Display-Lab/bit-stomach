@@ -3,7 +3,6 @@
 export(main)
 import(config)
 import(dplyr)
-import(jsonlite)
 importFrom(here,here)
 importFrom(jsonld,jsonld_expand)
 importFrom(jsonlite,fromJSON)

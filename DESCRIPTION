@@ -1,11 +1,25 @@
 Package: bitstomach
 Title: Ingest data to add annotations to spek.
 Version: 0.0.3.0
-Authors@R: person("Colin", "Gross", email = "grosscol@umich.edu", role = c("aut", "cre"))
-Description: Read performance data, apply annotation functions, add performer annotations back to speck, and output spek with annotations.
+Authors@R: c(
+    person("Colin", "Gross", email = "grosscol@umich.edu", role = c("aut", "cre")),
+    person("Plinco", "Cokbandit", email = "Competitive_Pie_Eating@umich.edu", role = "ctb"),
+    person("Ima", "Wiener", email = "Photography@umich.edu", role = "cph"))
+Description: Read performance data, apply annotation functions, add performer 
+    annotations back to speck, and output spek with annotations.
 Depends: R (>= 3.4.3)
+Imports: 
+    config,
+    dplyr,
+    here,
+    jsonld,
+    jsonlite,
+    readr,
+    tidyr
 License: Apache 2.0
 Encoding: UTF-8
+URL: https://github.com/Display-Lab/bit-stomach
+BugReports: https://github.com/Display-Lab/bit-stomach/issues
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 Suggests: testthat
