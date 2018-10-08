@@ -27,10 +27,10 @@ build_configuration <- function(config_path=NULL, ...) {
                          error=cfg_file_error )
   }
 
-  # Merge & overwrite
+  # Merge & overwrite default (d) config with read (r) config
   dr_config <- utils::modifyList(d_config, r_config)
 
-  # Overrides from dots.
+  # Merge parameter (p) config overrides from dots parameters.
   p_config <- list(...)
   drp_config <- utils::modifyList(dr_config, p_config)
 
@@ -46,6 +46,7 @@ default_config <- function(){
     data_path = system.file("example", "basic", "performer-data.csv", package = "bitstomach", mustWork = T),
     output_dir = tempdir(),
     annotation_path = system.file("example", "basic", "annotations.r", package = "bitstomach", mustWork = T),
+    uri_lookup = BS$DEFAULT_URI_LOOKUP,
     col_spec = BS$DEFAULT_COL_SPEC,
     verbose = BS$DEFAULT_VERBOSE
   )
