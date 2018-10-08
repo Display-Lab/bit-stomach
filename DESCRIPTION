@@ -1,6 +1,6 @@
 Package: bitstomach
 Title: Ingest data to add annotations to spek.
-Version: 0.0.3.0
+Version: 0.4.0
 Authors@R: person("Colin", "Gross", email = "grosscol@umich.edu", role = c("aut", "cre"))
 Description: Read performance data, apply annotation functions, add performer annotations back to speck, and output spek with annotations.
 Depends: R (>= 3.4.3)

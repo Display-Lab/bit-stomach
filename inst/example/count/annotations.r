@@ -1,5 +1,6 @@
 library(dplyr, warn.conflicts = FALSE)
 library(utils)
+library(stats)
 
 # Annotator functions for example situation
 # How to pass a guideline or static comparator into the annotation?
@@ -28,7 +29,7 @@ eval_perf_gap_pos <- function(rates, backgrounds){
 
 eval_perf_trend_neg <- function(vals){
   tail <- tail(vals, 3)
-  tail_slope <- lm(tail~x, list(x=1:3,tail=tail))$coefficients['x']
+  tail_slope <- stats::lm(tail~x, list(x=1:3,tail=tail))$coefficients['x']
   if(tail_slope <= -0.05){
     return(TRUE)
   }else{
@@ -38,7 +39,7 @@ eval_perf_trend_neg <- function(vals){
 
 eval_perf_trend_pos <- function(vals){
   tail <- tail(vals, 3)
-  tail_slope <- lm(tail~x, list(x=1:3,tail=tail))$coefficients['x']
+  tail_slope <- stats::lm(tail~x, list(x=1:3,tail=tail))$coefficients['x']
   if(tail_slope >= 0.05){
     return(TRUE)
   }else{
@@ -75,7 +76,7 @@ annotate_perf_gap_pos <- function(data, col_spec){
     mutate(bkgd_rate = background_mean(rate),
            perf_gap_pos=eval_perf_gap_pos(rate, bkgd_rate)) %>%
     group_by(id) %>%
-    filter(timepoint == max(timepoint)) %>%
+    dplyr::filter(timepoint == max(timepoint)) %>%
     select(id, perf_gap_pos)
 }
 
@@ -86,6 +87,6 @@ annotate_perf_gap_neg <- function(data, col_spec){
     mutate(bkgd_rate = background_mean(rate),
            perf_gap_neg=eval_perf_gap_neg(rate, bkgd_rate)) %>%
     group_by(id) %>%
-    filter(timepoint == max(timepoint)) %>%
+    dplyr::filter(timepoint == max(timepoint)) %>%
     select(id, perf_gap_neg)
 }
