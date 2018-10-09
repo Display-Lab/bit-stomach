@@ -4,6 +4,7 @@
 #' @param anno_env Environment containing the annotation functions.
 #' @param col_spec Lists of id_cols, ordering_cols, perf_cols
 #' @seealso source_annotations
+#' @importFrom utils lsf.str
 annotate <- function(data, anno_env, col_spec) {
   # Get list of annotations functions from annotation environment
   anno_func_names <- lsf.str(envir = anno_env, pattern = "annotate")
