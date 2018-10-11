@@ -1,8 +1,11 @@
 context('Smoke Test Main')
 
-test_that('Program runs with internal defaults.', {
-  skip("update required")
-  result <- bitstomach::main()
+test_that('Runs with data and spek provided.', {
+  skip("See issue-12")
+  result <- capture.output(bitstomach::main())
   expect_type(result, 'character')
-  expect_true(file.exists(result))
+})
+
+test_that('Provides useful error when data or spek is missing.', {
+  skip("See issue-12")
 })
