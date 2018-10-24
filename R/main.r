@@ -17,9 +17,10 @@ main <- function(spek_path = NULL, config_path = NULL, ...) {
   # Merge performer annotations with given spek
   spek_plus <- merge_performers(spek, performers_table)
 
-  # Write Spek with annotations added to disk
+  # Write Spek with annotations added to outfile
   spek_json <- jsonlite::toJSON(spek_plus, auto_unbox = T)
-  persist_to_disk(spek_json, run_config$output_dir)
+  output(spek_json, run_config$outfile)
+  invisible(NULL)
 }
 
 #' @title Digestion

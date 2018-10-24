@@ -81,14 +81,11 @@ if [[ -z $OUTPUT_DIR ]]; then
     OUTPUT_DIR="${PWD}/build"
 fi
 
-echo "Creating ${OUTPUT_DIR} if it doesn't exist"
 mkdir -p "${OUTPUT_DIR}"
 
 INPUT_ARGS="spek_path=${SPEK_FILE:-NULL}, config_path=${CONFIG_FILE:-NULL},\
   data_path=${DATA_FILE:-NULL}, annotation_path=${ANNO_FILE:-NULL}, \
   output_dir='${OUTPUT_DIR}'"
 
-echo "Running bitstomach R Package."
 EXPR="bitstomach::main(${INPUT_ARGS})"
-echo "${EXPR}"
 Rscript --vanilla --default-packages=bitstomach -e "${EXPR}"
