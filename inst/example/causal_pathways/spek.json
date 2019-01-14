@@ -58,10 +58,10 @@
     }],
   "slowmo:uses_template": [
     {
-      "@id": "https://example.com/app/onto#ShowGapTemplate"
+      "@id": "https://example.com/app#ShowGapTemplate"
     },
     {
-      "@id": "https://inferences.es/app/onto#ShowTrendTemplate"
+      "@id": "https://example.com/app#ShowTrendTemplate"
     }],
   "slowmo:measure": {
     "dc:title": "Generic Performance",
