@@ -58,10 +58,10 @@
     }],
   "slowmo:uses_template": [
     {
-      "@id": "https://example.com/app#ShowGapTemplate"
+      "@id": "http://example.com/app#ShowGapTemplate"
     },
     {
-      "@id": "https://example.com/app#ShowTrendTemplate"
+      "@id": "http://example.com/app#ShowTrendTemplate"
     }],
   "slowmo:measure": {
     "dc:title": "Generic Performance",
