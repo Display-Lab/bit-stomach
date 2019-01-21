@@ -92,7 +92,7 @@
         {
           "csvw:datatype": "string", 
           "dc:description": "Performer unique ID", 
-          "csvw:name": "id", 
+          "csvw:name": "performer", 
           "csvw:titles": "Name",
           "slowmo:use": "identifier"
         },
