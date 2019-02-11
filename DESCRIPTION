@@ -9,3 +9,14 @@ Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
 Suggests: testthat
+Imports: config,
+	dplyr,
+	jsonlite,
+	here,
+	jsonld,
+	jsonlite,
+	methods,
+	readr,
+	rlang,
+	tidyr,
+	utils
