@@ -43,9 +43,9 @@ build_configuration <- function(config_path=NULL, ...) {
 default_config <- function(){
   list(
     app_onto_url = BS$DEFAULT_APP_ONTO_URL,
-    data_path = system.file("example", "basic", "performer-data.csv", package = "bitstomach", mustWork = T),
+    data_path = system.file("example", "performer-data.csv", package = "bitstomach", mustWork = T),
     outfile = BS$DEFAULT_OUTFILE,
-    annotation_path = system.file("example", "basic", "annotations.r", package = "bitstomach", mustWork = T),
+    annotation_path = system.file("example", "annotations.r", package = "bitstomach", mustWork = T),
     uri_lookup = BS$DEFAULT_URI_LOOKUP,
     col_spec = BS$DEFAULT_COL_SPEC,
     verbose = BS$DEFAULT_VERBOSE
