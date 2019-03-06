@@ -1,7 +1,7 @@
 #' @title Merge Performers
 #' @description Apply annotations to performers in spek.
 #' @details Adds newly found performers and updates esiting performers in spek
-#' @import jsonlite
+#' @importFrom jsonlite fromJSON toJSON
 merge_performers <- function(spek, performers_table){
 
   pt_list <- jsonlite::fromJSON(jsonlite::toJSON(performers_table), simplifyDataFrame = F, simplifyVector = T)

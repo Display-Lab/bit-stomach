@@ -1,6 +1,7 @@
 #' @title Cannonicalize Ids
-#' @import dplyr
 #' @description Concatenate id column values into single id column.
+#' @import dplyr
+#' @importFrom rlang syms
 canonicalize_ids <- function(data, id_cols) {
   id_syms <- rlang::syms(id_cols)
   data %>%
