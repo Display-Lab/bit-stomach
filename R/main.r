@@ -5,12 +5,12 @@
 #' @param ... List of configuration overrides passed to build_config
 #' @seealso build_configuration
 #' @export
-main <- function(spek_path = NULL, config_path = NULL, ...) {
+main <- function(spek_path = NULL, ...) {
   # Read spek
   spek <- read_spek(spek_path)
 
   # Build configuration
-  run_config <- build_configuration(config_path, ...)
+  run_config <- build_configuration(...)
 
   if(run_config$verbose == TRUE){
     print(run_config)
