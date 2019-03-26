@@ -5,7 +5,7 @@ test_that('Program runs with internal example project.', {
   data_path        <- system.file("example", "performer-data.csv", package="bitstomach", mustWork = T)
   annotation_path  <- system.file("example", "annotations.r", package="bitstomach", mustWork = T)
 
-  result <- capture.output(bitstomach::main(spek_path, annotation_path=annotation_path, data_path=data_path))
+  result <- capture.output(main(spek_path, annotation_path=annotation_path, data_path=data_path))
 
   expect_type(result, 'character')
 })

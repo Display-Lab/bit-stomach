@@ -10,7 +10,7 @@ main <- function(spek_path = NULL, ...) {
   spek <- read_spek(spek_path)
 
   # Build configuration
-  run_config <- build_configuration(...)
+  run_config <- build_configuration(spek, ...)
 
   if(run_config$verbose == TRUE){
     print(run_config)

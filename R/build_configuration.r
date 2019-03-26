@@ -15,9 +15,12 @@
 #' @import config
 #' @importFrom here here
 #' @importFrom utils modifyList
-build_configuration <- function(spek, ...) {
-  # Start with default config
+build_configuration <- function(spek=list(), ...) {
+  # Start with default (d) config
   d_config <- BS$DEFAULT_RUN_CONFIG
+
+  # Parse spek for column spec
+  d_config$col_spec <- parse_col_spec(spek)
 
   # Merge parameter (p) config overrides from dots parameters.
   p_config <- list(...)
