@@ -1,12 +1,6 @@
 # top level config environment
 BS <- new.env()
 
-BS$DEFAULT_COL_SPEC <- list(
-  "id_cols" = c("performer"),
-  "perf_cols" = c("score"),
-  "ordering_cols" = c("timepoint")
-)
-
 # Used in swap_in_uris.r as lookup for shortname names in annotations to full IRI
 BS$DEFAULT_URI_LOOKUP <- list(
   performer            = "http://example.com/slowmo#ascribee",
@@ -32,7 +26,7 @@ BS$DEFAULT_VERBOSE <- FALSE
 # Default configuration
 BS$DEFAULT_RUN_CONFIG <- list(
     verbose = BS$DEFAULT_VERBOSE,
-    col_spec = BS$DEFAULT_COL_SPEC,
+    col_spec = list(),
     app_onto_url = BS$DEFAULT_APP_ONTO_URL,
     outfile = BS$DEFAULT_OUTFILE,
     data_path = system.file("example", "performer-data.csv", package = "bitstomach", mustWork = T),
