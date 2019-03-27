@@ -15,48 +15,16 @@
 #' @import config
 #' @importFrom here here
 #' @importFrom utils modifyList
-build_configuration <- function(config_path=NULL, ...) {
-  # Start with default config
-  d_config <- default_config()
+build_configuration <- function(spek=list(), ...) {
+  # Start with default (d) config
+  d_config <- BS$DEFAULT_RUN_CONFIG
 
-  # Read from config if supplied
-  if(is.null(config_path)){
-    r_config <- list()
-  }else{
-    r_config <- tryCatch(config::get(file = config_path, use_parent = F),
-                         error=cfg_file_error )
-  }
-
-  # Merge & overwrite default (d) config with read (r) config
-  dr_config <- utils::modifyList(d_config, r_config)
+  # Parse spek for column spec
+  d_config$col_spec <- parse_col_spec(spek)
 
   # Merge parameter (p) config overrides from dots parameters.
   p_config <- list(...)
-  drp_config <- utils::modifyList(dr_config, p_config)
+  dp_config <- utils::modifyList(d_config, p_config)
 
-  return(drp_config)
-}
-
-#' @title Default Configuration
-#' @description Provide default configuration values
-#' @describeIn Build Configuration
-default_config <- function(){
-  list(
-    app_onto_url = BS$DEFAULT_APP_ONTO_URL,
-    data_path = system.file("example", "performer-data.csv", package = "bitstomach", mustWork = T),
-    outfile = BS$DEFAULT_OUTFILE,
-    annotation_path = system.file("example", "annotations.r", package = "bitstomach", mustWork = T),
-    uri_lookup = BS$DEFAULT_URI_LOOKUP,
-    col_spec = BS$DEFAULT_COL_SPEC,
-    verbose = BS$DEFAULT_VERBOSE
-  )
-}
-
-#' @title Config File Error
-#' @description Emit warning and return empty list in event of error reading config file
-#' @importFrom rlang warn
-cfg_file_error <- function(e){
-  msg <- paste("Problem reading config file:", e$message, sep="\n  ")
-  rlang::warn(msg)
-  return(list())
+  return(dp_config)
 }

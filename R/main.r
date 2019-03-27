@@ -1,15 +1,20 @@
 #' @title Main
 #' @description The entry function with all the side effects.
 #' @param config_path Path to configuration yaml. Use NULL to use internal defaults.
+#' @param spek_path Path to spek yaml. Use NULL to use internal defaults.
 #' @param ... List of configuration overrides passed to build_config
 #' @seealso build_configuration
 #' @export
-main <- function(spek_path = NULL, config_path = NULL, ...) {
+main <- function(spek_path = NULL, ...) {
   # Read spek
   spek <- read_spek(spek_path)
 
   # Build configuration
-  run_config <- build_configuration(config_path, ...)
+  run_config <- build_configuration(spek, ...)
+
+  if(run_config$verbose == TRUE){
+    print(run_config)
+  }
 
   # Ingest performance data and annotate performers based on performance data
   performers_table <- digestion(run_config)
@@ -25,6 +30,7 @@ main <- function(spek_path = NULL, config_path = NULL, ...) {
 
 #' @title Digestion
 #' @describeIn Main
+#' @description Digest the inputs specified in the runtime configuration.
 #' @param config Runtime configuration
 #' @details The config parameter contains
 #' @return table of performers and their annotations

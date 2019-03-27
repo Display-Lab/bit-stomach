@@ -54,7 +54,9 @@ while (( "$#" )); do
       shift 2
       ;;
     --verbose)
-      VERBOSE_ARG="verbose=TRUE"
+      VERBOSE_ARG="TRUE"
+      echo "VERBOSE"
+      shift 1
       ;;
     --version)
       VER_EXPR='cat(as.character(packageVersion("bitstomach")))'
@@ -85,7 +87,7 @@ mkdir -p "${OUTPUT_DIR}"
 
 INPUT_ARGS="spek_path=${SPEK_FILE:-NULL}, config_path=${CONFIG_FILE:-NULL},\
   data_path=${DATA_FILE:-NULL}, annotation_path=${ANNO_FILE:-NULL}, \
-  output_dir='${OUTPUT_DIR}'"
+  output_dir='${OUTPUT_DIR}', verbose=${VERBOSE_ARG:-FALSE}"
 
 EXPR="bitstomach::main(${INPUT_ARGS})"
 Rscript --vanilla --default-packages=bitstomach -e "${EXPR}"

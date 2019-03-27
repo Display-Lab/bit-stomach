@@ -1,23 +1,21 @@
 context('Test Build Configuration and Overrides')
 
-test_that('Default config is used when path to config is NULL.', {
+test_that('Default config from package constants is used when no parameters are given.', {
   result <- build_configuration()
-  expect_equal(result$app_onto_url, "http://example.com/app#")
-})
-
-test_that('Warning emitted when path to config unreadable.', {
-  config_path <- file.path("not","a","valid","file")
-  expect_warning( build_configuration(config_path) )
-})
-
-test_that('Config file overrides default config.', {
-  config_path <- system.file("example","count","config.yml", package="bitstomach")
-  result <- build_configuration(config_path)
-  expect_equal(result$app_onto_url, "http://example.com/app#")
+  expect_identical(result, BS$DEFAULT_RUN_CONFIG)
 })
 
 test_that('Dots override file and default configs.', {
-  config_path <- system.file("example","count","config.yml", package="bitstomach")
-  result <- build_configuration(config_path, app_onto_url="https://overridd.en/app/test#")
+  result <- build_configuration(app_onto_url="https://overridd.en/app/test#")
   expect_equal(result$app_onto_url, "https://overridd.en/app/test#")
+})
+
+test_that('Default col_spec is all empty', {
+  result <- build_configuration()
+  empty_vals <- sapply(result$col_spec, function(x) is.list(x) && length(x) < 1)
+  expect_true(all(empty_vals))
+})
+
+test_that('Build config reads col_spec from spek',{
+  skip('issue 22')
 })
