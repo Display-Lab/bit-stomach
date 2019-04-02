@@ -12,6 +12,7 @@
     "slowmo:uses_ISR":         "http://example.com/slowmo#slowmo_0000002",
     "slowmo:rid_template":     "http://example.com/slowmo#template",
     "slowmo:ColumnUse":        "http://example.com/slowmo#ColumnUse",
+    "slowmo:IsAboutTemplate":  "http://example.com/slowmo#IsAboutTemplate",
     "slowmo:spek":                  "http://example.com/slowmo#slowmo_0000140",
     "cpo:ISR":                      "http://example.com/cpo#cpo_0000029",
     "slowmo:normative_comparator":  "http://example.com/slowmo#normative_comparator",
@@ -59,7 +60,7 @@
       "@id": "http://example.com/app#EliminateGap",
       "@type": "http://example.com/cpo#cpo_0000029"
     }],
-  "slowmo:uses_template": [
+  "slowmo:IsAboutTemplate": [
     {
       "@id": "http://example.com/app#ShowGapTemplate"
     },
