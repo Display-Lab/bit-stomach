@@ -3,12 +3,12 @@ BS <- new.env()
 
 # Used in swap_in_uris.r as lookup for shortname names in annotations to full IRI
 BS$DEFAULT_URI_LOOKUP <- list(
-  performer            = "http://example.com/slowmo#ascribee",
-  has_performer        = "http://example.com/slowmo#slowmo_0000001",
-  uses_template        = "http://example.com/slowmo#slowmo_0000003",
-  spek                 = "http://example.com/slowmo#slowmo_0000140",
-  normative_comparator = "http://example.com/slowmo#normative_comparator",
-  related_location     = "http://example.com/app#related_location",
+  performer            = "http://purl.obolibrary.org/obo/psdo_0000085",
+  has_performer        = "http://example.com/slowmo#IsAboutPerformer",
+  uses_template        = "http://example.com/slowmo#IsAboutTemplate",
+  spek                 = "http://example.com/slowmo#spek",
+  normative_comparator = "http://example.com/slowmo#NormativeComparator",
+  related_location     = "http://example.com/slowmo#RelatedLocation",
   has_part             = "http://purl.obolibrary.org/obo/bfo#BFO_0000051",
   has_disposition      = "http://purl.obolibrary.org/obo/RO_0000091",
   client_spek          = "http://example.com/app#clientname_spek"
@@ -17,10 +17,10 @@ BS$DEFAULT_URI_LOOKUP <- list(
 # IRIs for parsing spek
 BS$HAS_DISPOSITION_URI <- "http://purl.obolibrary.org/obo/RO_0000091"
 BS$DEFAULT_APP_ONTO_URL <- "http://example.com/app#"
-BS$HAS_PERFORMERS_URI <- "http://example.com/slowmo#slowmo_0000001"
-BS$PERFORMER_URI <- "http://example.com/slowmo#ascribee"
-BS$INPUT_TABLE_IRI <- "http://example.com/slowmo#input_table"
-BS$MEASURE_IRI <- "http://example.com/slowmo#measure"
+BS$HAS_PERFORMERS_URI <- "http://example.com/slowmo#IsAboutPerformer"
+BS$PERFORMER_URI <- "http://purl.obolibrary.org/obo/psdo_0000085"
+BS$INPUT_TABLE_IRI <- "http://example.com/slowmo#InputTable"
+BS$MEASURE_IRI <- "http://example.com/slowmo#Measure"
 BS$COL_USE_IRI <- "http://example.com/slowmo#ColumnUse"
 
 BS$TABLE_SCHEMA_IRI <- "http://www.w3.org/ns/csvw#tableSchema"
@@ -41,12 +41,12 @@ BS$DEFAULT_RUN_CONFIG <- list(
     data_path = system.file("example", "performer-data.csv", package = "bitstomach", mustWork = T),
     annotation_path = system.file("example", "annotations.r", package = "bitstomach", mustWork = T),
     uri_lookup = list(
-      performer            = "http://example.com/slowmo#ascribee",
-      has_performer        = "http://example.com/slowmo#slowmo_0000001",
-      uses_template        = "http://example.com/slowmo#slowmo_0000003",
-      spek                 = "http://example.com/slowmo#slowmo_0000140",
-      normative_comparator = "http://example.com/slowmo#normative_comparator",
-      related_location     = "http://example.com/app#related_location",
+      performer            = "http://purl.obolibrary.org/obo/psdo_0000085",
+      has_performer        = "http://example.com/slowmo#IsAboutPerformer",
+      uses_template        = "http://example.com/slowmo#IsAboutTemplate",
+      spek                 = "http://example.com/slowmo#spek",
+      normative_comparator = "http://example.com/slowmo#NormativeComparator",
+      related_location     = "http://example.com/app#RelatedLocation",
       has_part             = "http://purl.obolibrary.org/obo/bfo#BFO_0000051",
       has_disposition      = "http://purl.obolibrary.org/obo/RO_0000091",
       client_spek          = "http://example.com/app#clientname_spek")
@@ -55,8 +55,8 @@ BS$DEFAULT_RUN_CONFIG <- list(
 BS$DEFAULT_SPEK <- '{
   "@context": {
     "@vocab": "http://schema.org/",
-    "slowmo:measure": "http://example.com/slowmo#measure"
+    "slowmo:Measure": "http://example.com/slowmo#Measure"
   },
-  "@type": "http://example.com/slowmo#slowmo_0000140"
+  "@type": "http://example.com/slowmo#spek"
 }'
 

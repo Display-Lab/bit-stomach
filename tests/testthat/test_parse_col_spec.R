@@ -1,10 +1,10 @@
 context('Parse Column Specification from Spek')
 
-spek_sans_input_table <- list(`@id` = "http://example.com/app#example-client", `@type` = "http://example.com/slowmo#slowmo_0000140")
+spek_sans_input_table <- list(`@id` = "http://example.com/app#example-client", `@type` = "http://example.com/slowmo#spek")
 
 spek_with_input_table <-
-  list(`@id` = "http://example.com/app#example-client", `@type` = "http://example.com/slowmo#slowmo_0000140",
-    `http://example.com/slowmo#input_table` = list(
+  list(`@id` = "http://example.com/app#example-client", `@type` = "http://example.com/slowmo#spek",
+    `http://example.com/slowmo#InputTable` = list(
     list(
       `@type` = "http://www.w3.org/ns/csvw#Table",
       `http://www.w3.org/ns/csvw#dialect` = list(
