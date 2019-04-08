@@ -1,6 +1,5 @@
 #' @title Main
 #' @description The entry function with all the side effects.
-#' @param config_path Path to configuration yaml. Use NULL to use internal defaults.
 #' @param spek_path Path to spek yaml. Use NULL to use internal defaults.
 #' @param ... List of configuration overrides passed to build_config
 #' @seealso build_configuration

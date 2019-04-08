@@ -31,7 +31,7 @@ BS$COL_NAME_IRI <- "http://www.w3.org/ns/csvw#name"
 
 
 # Default configuration
-BS$DEFAULT_OUTFILE <- stdout()
+BS$DEFAULT_OUTFILE <- ""
 BS$DEFAULT_VERBOSE <- FALSE
 BS$DEFAULT_RUN_CONFIG <- list(
     verbose = BS$DEFAULT_VERBOSE,
