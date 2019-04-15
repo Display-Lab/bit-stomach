@@ -6,8 +6,17 @@
 #' @return An environment with the evaluated the contents of the annotations.R
 #' @note Annotation functions will be passed two arguements: data and col_spec
 #'   The col_spec is a list of three character vectors: id_cols, ordering_cols, perf_cols
-source_annotations <- function(path) {
+#' @importFrom rlang abort
+source_annotations <- function(path=NULL) {
   anno_env <- new.env(parent = .BaseNamespaceEnv)
-  source(path, local = anno_env)
+
+  if(!is.null(path)) {
+    if(file.exists(path)){
+      source(path, local = anno_env)
+    } else {
+      rlang::abort(message=BS$ERROR_INVALID_ANNOTATION_PATH)
+    }
+  }
+
   return(anno_env)
 }
