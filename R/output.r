@@ -1,22 +1,20 @@
 #' @title Output
 #' @description Persist json to disk
 #' @param content json content
-#' @param outfile path or conn to write output to
+#' @param outpath path to write output or "" for standard output
 #' @importFrom methods is
-output <- function(content, outfile) {
+#' @importFrom rlang abort
+output <- function(content, outpath = "") {
   # If passed a path, attempt to open it
-  if(is.character(outfile)){ outfile <- file(outfile, "wt") }
-
-  # Check that connection is open and writable
-  if(is(outfile, "connection") && isOpen(outfile, "w")){
-    out <- outfile
-  } else {
-    return(FALSE)
+  if(!identical(outpath, "")){
+    out <- file(outfile, "wt")
+    if(!isOpen(outfile, "w")){ rlang::abort("Output file is not writeble.") }
+  }else{
+    out = outpath
   }
 
-  # Write content
-  cat(content, file = out)
+  # Write content and do not circumvent sink()
+  cat(content, out)
 
-  # Return success
   return(TRUE)
 }

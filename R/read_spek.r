@@ -6,10 +6,11 @@
 #' @importFrom jsonlite fromJSON
 #' @importFrom jsonld jsonld_expand
 #' @importFrom readr read_file
+#' @importFrom rlang warn
 read_spek <- function(spek_path = NULL){
   if(is.null(spek_path)){
+    rlang::warn(BS$WARN_NO_SPEK)
     spek_str <- BS$DEFAULT_SPEK
-    #spek_str <- readr::read_file('/tmp/minspek.json')
   } else {
     spek_str <- readr::read_file(spek_path)
   }

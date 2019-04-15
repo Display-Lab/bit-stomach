@@ -5,7 +5,7 @@
 #' @return annotations object with names replaced by uris from lookup when applicable
 swap_in_uris <- function(annotations, uri_lookup=list()) {
   new_names <- sapply(names(annotations), lookup_new_name, lu_list=uri_lookup, USE.NAMES = F)
-  names(annotations) <- new_names
+  if(!is.null(annotations)){ names(annotations) <- new_names }
   return(annotations)
 }
 

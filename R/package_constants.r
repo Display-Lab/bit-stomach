@@ -29,34 +29,29 @@ BS$TABLE_IRI <- "http://www.w3.org/ns/csvw#Table"
 BS$DIALECT_IRI <- "http://www.w3.org/ns/csvw#dialect"
 BS$COL_NAME_IRI <- "http://www.w3.org/ns/csvw#name"
 
-
 # Default configuration
-BS$DEFAULT_OUTFILE <- stdout()
+BS$DEFAULT_OUTFILE <- ""
 BS$DEFAULT_VERBOSE <- FALSE
 BS$DEFAULT_RUN_CONFIG <- list(
     verbose = BS$DEFAULT_VERBOSE,
     col_spec = list(id_cols=list(), val_cols=list()),
     app_onto_url = BS$DEFAULT_APP_ONTO_URL,
     outfile = BS$DEFAULT_OUTFILE,
-    data_path = system.file("example", "performer-data.csv", package = "bitstomach", mustWork = T),
-    annotation_path = system.file("example", "annotations.r", package = "bitstomach", mustWork = T),
-    uri_lookup = list(
-      performer            = "http://purl.obolibrary.org/obo/psdo_0000085",
-      has_performer        = "http://example.com/slowmo#IsAboutPerformer",
-      uses_template        = "http://example.com/slowmo#IsAboutTemplate",
-      spek                 = "http://example.com/slowmo#spek",
-      normative_comparator = "http://example.com/slowmo#NormativeComparator",
-      related_location     = "http://example.com/app#RelatedLocation",
-      has_part             = "http://purl.obolibrary.org/obo/bfo#BFO_0000051",
-      has_disposition      = "http://purl.obolibrary.org/obo/RO_0000091",
-      client_spek          = "http://example.com/app#clientname_spek")
+    data_path = NULL,
+    annotation_path = NULL,
+    uri_lookup = BS$DEFAULT_URI_LOOKUP
   )
 
 BS$DEFAULT_SPEK <- '{
-  "@context": {
-    "@vocab": "http://schema.org/",
-    "slowmo:Measure": "http://example.com/slowmo#Measure"
-  },
+  "@context": { "@vocab": "http://schema.org/" },
   "@type": "http://example.com/slowmo#spek"
 }'
 
+# Error Strings
+BS$ERROR_INVALID_ANNOTATION_PATH <- "[Error] Path to annotations file not found."
+BS$ERROR_UNREADABLE_ANNOTATION_FILE <- "[Error] Annotation file unreadable.  Check permissions."
+BS$ERROR_NO_ID_COLUMN <- "[Error] Spek did not specify 'identity' ColumnUse, or 'id' column missing from data."
+
+# Warning String constants
+BS$WARN_NO_ANNOTATION_FUNCTIONS <- "[Warn] No annotation functions found."
+BS$WARN_NO_SPEK <- "[Warn] Spek not provided."
