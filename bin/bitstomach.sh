@@ -90,4 +90,4 @@ INPUT_ARGS="spek_path=${SPEK_FILE:-NULL}, config_path=${CONFIG_FILE:-NULL},\
   output_dir='${OUTPUT_DIR}', verbose=${VERBOSE_ARG:-FALSE}"
 
 EXPR="bitstomach::main(${INPUT_ARGS})"
-Rscript --vanilla --default-packages=bitstomach -e "${EXPR}"
+Rscript --default-packages=bitstomach -e "${EXPR}"
