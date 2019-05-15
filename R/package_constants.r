@@ -45,9 +45,8 @@ BS$DEFAULT_URI_LOOKUP <- list(
 
 # Default configuration
 BS$DEFAULT_OUTFILE <- ""
-BS$DEFAULT_VERBOSE <- FALSE
 BS$DEFAULT_RUN_CONFIG <- list(
-    verbose = BS$DEFAULT_VERBOSE,
+    verbose = FALSE,
     col_spec = list(id_cols=list(), val_cols=list()),
     app_onto_url = BS$DEFAULT_APP_ONTO_URL,
     outfile = BS$DEFAULT_OUTFILE,

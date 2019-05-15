@@ -19,18 +19,15 @@ annotate <- function(data, anno_env, col_spec) {
   setup_func <- lsf.str(envir=anno_env, pattern="^setup_cache$")
   if(length(setup_func)==1){
     # TODO implement passing spek into annotate and annotations
-    cache <- do.call('setup_cache', args=list(data=data, spek=list()), envir=anno_env)
+    cache <- do.call(toString(setup_func), args=list(data=data, spek=list()), envir=anno_env)
     anno_env$cache <- cache
   }
 
   # Build arguement list to pass to each of the annotation functions
   anno_args <- list(data = data, col_spec = col_spec)
 
-  # Create an annotation table per each annotation function
-  #anno_results <- lapply(anno_func_names, do.call, args = anno_args, envir = anno_env)
-
-  # Emit errors
   anno_results <- lapply(anno_func_names, FUN = run_annotation, args = anno_args, envir = anno_env)
+  names(anno_results) <- anno_func_names
 
   result_is_error <- sapply(anno_results, function(x){ "error" %in% class(x)})
 
