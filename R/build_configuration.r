@@ -19,9 +19,6 @@ build_configuration <- function(spek=list(), ...) {
   # Start with default (d) config
   d_config <- BS$DEFAULT_RUN_CONFIG
 
-  # Parse spek for column spec
-  d_config$col_spec <- parse_col_spec(spek)
-
   # Merge parameter (p) config overrides from dots parameters.
   p_config <- list(...)
   dp_config <- utils::modifyList(d_config, p_config)

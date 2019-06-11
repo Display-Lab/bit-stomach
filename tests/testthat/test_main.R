@@ -1,9 +1,27 @@
 context('Smoke Test Main')
 
-test_that('Program runs with internal example project.', {
-  spek_path  <- system.file("example", "spek.json", package="bitstomach", mustWork = T)
-  data_path  <- system.file("example", "performer-data.csv", package="bitstomach", mustWork = T)
-  anno_path  <- system.file("example", "annotations.r", package="bitstomach", mustWork = T)
+
+# Expect success for a suite
+run_suite <- function(suite_name){
+  spek_path <- spekex::get_spek_path(suite_name)
+  data_path <- spekex::get_data_path(suite_name)
+  anno_path <- spekex::get_annotations_path(suite_name)
+
+  result <- capture_output(main(spek_path, annotation_path=anno_path, data_path=data_path))
+  expect_type(result, 'character')
+}
+
+# This is an integration test that takes a while. Use Sys.setenv("FULLTEST"=FALSE) to skip.
+test_that('Program runs with all example projects.', {
+  skip_if_not(Sys.getenv("FULLTEST") == TRUE, "skipping full integration testing.")
+  suite_names <- spekex::list_suite_names()
+  lapply(suite_names, run_suite)
+})
+
+test_that('Program runs with sham example project.', {
+  spek_path <- spekex::get_spek_path('sham')
+  data_path <- spekex::get_data_path('sham')
+  anno_path <- spekex::get_annotations_path('sham')
 
   result <- capture_output(main(spek_path, annotation_path=anno_path, data_path=data_path))
 

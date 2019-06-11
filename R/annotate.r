@@ -2,12 +2,12 @@
 #' @description Runn annotation functions over
 #' @param data Performance data
 #' @param anno_env Environment containing the annotation functions.
-#' @param col_spec Lists of id_cols, ordering_cols, perf_cols
+#' @param spek Lists representation of spek
 #' @return A data.frame with column for id and each annotated attribute.
 #'   Values for annotated attributes are TRUE or FALSE indicating presence or absence of attribute.
 #' @seealso source_annotations
 #' @importFrom utils lsf.str
-annotate <- function(data, anno_env, col_spec) {
+annotate <- function(data, anno_env, spek) {
   # Get list of annotations functions from annotation environment
   anno_func_names <- lsf.str(envir = anno_env, pattern = "annotate")
 
@@ -24,7 +24,7 @@ annotate <- function(data, anno_env, col_spec) {
   }
 
   # Build arguement list to pass to each of the annotation functions
-  anno_args <- list(data = data, col_spec = col_spec)
+  anno_args <- list(data = data, spek = spek)
 
   anno_results <- lapply(anno_func_names, FUN = run_annotation, args = anno_args, envir = anno_env)
   names(anno_results) <- anno_func_names
