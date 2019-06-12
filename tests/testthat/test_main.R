@@ -8,14 +8,15 @@ run_suite <- function(suite_name){
   anno_path <- spekex::get_annotations_path(suite_name)
 
   result <- capture_output(main(spek_path, annotation_path=anno_path, data_path=data_path))
-  expect_type(result, 'character')
 }
 
 # This is an integration test that takes a while. Use Sys.setenv("FULLTEST"=FALSE) to skip.
 test_that('Program runs with all example projects.', {
   skip_if_not(Sys.getenv("FULLTEST") == TRUE, "skipping full integration testing.")
   suite_names <- spekex::list_suite_names()
-  lapply(suite_names, run_suite)
+  results <- lapply(suite_names, run_suite)
+
+  expect_true(all(sapply(results, is.character)))
 })
 
 test_that('Program runs with sham example project.', {
