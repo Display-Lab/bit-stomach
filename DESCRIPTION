@@ -1,6 +1,6 @@
 Package: bitstomach
 Title: Bit Stomach
-Version: 0.8.0
+Version: 0.9.0
 Authors@R: person("Colin", "Gross", email = "grosscol@umich.edu", role = c("aut", "cre"))
 Description: Read performance data, apply annotation functions, add performer annotations back to speck, and output spek with annotations.
 Depends: R (>= 3.4.0)
@@ -8,14 +8,16 @@ License: GPL-3.0
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
-Suggests: testthat
+Suggests: testthat,
+  tibble
 Imports: config,
 	dplyr,
 	here,
-	jsonld,
 	jsonlite,
 	methods,
 	readr,
 	rlang,
+  spekex,
 	tidyr,
 	utils
+Remotes: github::display-lab/spekex

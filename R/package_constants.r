@@ -44,27 +44,17 @@ BS$DEFAULT_URI_LOOKUP <- list(
 )
 
 # Default configuration
-BS$DEFAULT_OUTFILE <- ""
 BS$DEFAULT_RUN_CONFIG <- list(
     verbose = FALSE,
-    col_spec = list(id_cols=list(), val_cols=list()),
     app_onto_url = BS$DEFAULT_APP_ONTO_URL,
-    outfile = BS$DEFAULT_OUTFILE,
-    data_path = NULL,
-    annotation_path = NULL,
     uri_lookup = BS$DEFAULT_URI_LOOKUP
   )
-
-BS$DEFAULT_SPEK <- '{
-  "@context": { "@vocab": "http://schema.org/" },
-  "@type": "http://example.com/slowmo#spek"
-}'
 
 # Error Strings
 BS$ERROR_INVALID_ANNOTATION_PATH <- "[Error] Path to annotations file not found."
 BS$ERROR_UNREADABLE_ANNOTATION_FILE <- "[Error] Annotation file unreadable.  Check permissions."
 BS$ERROR_NO_ID_COLUMN <- "[Error] Spek did not specify 'identity' ColumnUse, or 'id' column missing from data."
+BS$ERROR_NO_SPEK <- "[Error] Spek not provided."
 
 # Warning String constants
 BS$WARN_NO_ANNOTATION_FUNCTIONS <- "[Warn] No annotation functions found."
-BS$WARN_NO_SPEK <- "[Warn] Spek not provided."
