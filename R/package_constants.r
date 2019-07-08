@@ -18,11 +18,12 @@ BS$COL_NAME_IRI <- "http://www.w3.org/ns/csvw#name"
 
 # Slowmo ascribee IRIs
 BS$CAPABILITY_BARRIER <- "http://example.com/slowmo#CapabilityBarrier"
-BS$NEGATIVE_TREND     <- "http://example.com/slowmo#NegativePerformanceTrend"
-BS$POSITIVE_TREND     <- "http://example.com/slowmo#PositivePerformanceTrend"
-BS$NEGATIVE_GAP       <- "http://example.com/slowmo#NegativePerformanceGap"
-BS$POSITIVE_GAP       <- "http://example.com/slowmo#PositivePerformanceGap"
+BS$NEGATIVE_TREND     <- "http://example.com/slowmo#PerformanceTrendNegative"
+BS$POSITIVE_TREND     <- "http://example.com/slowmo#PerformanceTrendPositive"
+BS$NEGATIVE_GAP       <- "http://example.com/slowmo#PerformanceGapNegative"
+BS$POSITIVE_GAP       <- "http://example.com/slowmo#PerformanceGapPositive"
 BS$PERFORMANCE_GAP    <- "http://example.com/slowmo#PerformanceGap"
+BS$LARGE_GAP          <- "http://example.com/slowmo#LargeGap"
 
 # Used in swap_in_uris.r as lookup for shortname names in annotations to full IRI
 BS$DEFAULT_URI_LOOKUP <- list(
@@ -40,7 +41,8 @@ BS$DEFAULT_URI_LOOKUP <- list(
   positive_trend       = BS$POSITIVE_TREND,
   negative_gap         = BS$NEGATIVE_GAP,
   positive_gap         = BS$POSITIVE_GAP,
-  performance_gap      = BS$PERFORMANCE_GAP
+  performance_gap      = BS$PERFORMANCE_GAP,
+  large_gap            = BS$LARGE_GAP
 )
 
 # Default configuration
