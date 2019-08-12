@@ -1,29 +1,32 @@
+# Depend on spekex for URI constants
+library(spekex)
+
 # top level config environment
 BS <- new.env()
 
 # IRIs for parsing spek
-BS$HAS_DISPOSITION_URI <- "http://purl.obolibrary.org/obo/RO_0000091"
-BS$DEFAULT_APP_ONTO_URL <- "http://example.com/app#"
-BS$HAS_PERFORMERS_URI <- "http://example.com/slowmo#IsAboutPerformer"
-BS$PERFORMER_URI <- "http://purl.obolibrary.org/obo/psdo_0000085"
-BS$INPUT_TABLE_IRI <- "http://example.com/slowmo#InputTable"
-BS$MEASURE_IRI <- "http://example.com/slowmo#Measure"
-BS$COL_USE_IRI <- "http://example.com/slowmo#ColumnUse"
+BS$HAS_DISPOSITION_URI <- spekex::SE$HAS_DISPOSITION_IRI
+BS$DEFAULT_APP_ONTO_URL <- spekex::SE$DEFAULT_APP_IRI
+BS$HAS_PERFORMERS_URI <- spekex::SE$HAS_PERFORMERS_IRI
+BS$PERFORMER_URI <- spekex::SE$PERFORMER_IRI
+BS$INPUT_TABLE_IRI <- spekex::SE$INPUT_TABLE_IRI
+BS$MEASURE_IRI <- spekex::SE$MEASURE_IRI
+BS$COL_USE_IRI <- spekex::SE$COLUMN_USE_IRI
 
-BS$TABLE_SCHEMA_IRI <- "http://www.w3.org/ns/csvw#tableSchema"
-BS$COLUMNS_IRI <- "http://www.w3.org/ns/csvw#columns"
-BS$TABLE_IRI <- "http://www.w3.org/ns/csvw#Table"
-BS$DIALECT_IRI <- "http://www.w3.org/ns/csvw#dialect"
-BS$COL_NAME_IRI <- "http://www.w3.org/ns/csvw#name"
+BS$TABLE_SCHEMA_IRI <- spekex::SE$TABLE_SCHEMA_IRI
+BS$COLUMNS_IRI <- spekex::SE$COLUMNS_IRI
+BS$TABLE_IRI <- spekex::SE$TABLE_IRI
+BS$DIALECT_IRI <- spekex::SE$DIALECT_IRI
+BS$COL_NAME_IRI <- spekex::SE$COLUMN_NAME_IRI
 
 # Slowmo ascribee IRIs
-BS$CAPABILITY_BARRIER <- "http://example.com/slowmo#CapabilityBarrier"
-BS$NEGATIVE_TREND     <- "http://example.com/slowmo#PerformanceTrendNegative"
-BS$POSITIVE_TREND     <- "http://example.com/slowmo#PerformanceTrendPositive"
-BS$NEGATIVE_GAP       <- "http://example.com/slowmo#PerformanceGapNegative"
-BS$POSITIVE_GAP       <- "http://example.com/slowmo#PerformanceGapPositive"
-BS$PERFORMANCE_GAP    <- "http://example.com/slowmo#PerformanceGap"
-BS$LARGE_GAP          <- "http://example.com/slowmo#LargeGap"
+BS$CAPABILITY_BARRIER <- spekex::SE$CAPABILITY_BARRIER_IRI
+BS$NEGATIVE_TREND <- spekex::SE$NEGATIVE_TREND_IRI
+BS$POSITIVE_TREND <- spekex::SE$POSITIVE_TREND_IRI
+BS$NEGATIVE_GAP <- spekex::SE$NEGATIVE_GAP_IRI
+BS$POSITIVE_GAP <- spekex::SE$POSITIVE_GAP_IRI
+BS$PERFORMANCE_GAP <- spekex::SE$PERFORMANCE_GAP_IRI
+BS$LARGE_GAP <- spekex::SE$LARGE_GAP_IRI
 
 # Used in swap_in_uris.r as lookup for shortname names in annotations to full IRI
 BS$DEFAULT_URI_LOOKUP <- list(
