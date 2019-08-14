@@ -2,7 +2,7 @@ context('Sourcing annotations')
 
 
 test_that("Environment with annotation functions are returned.",{
-  anno_path <- system.file("example","annotations.r", package = "bitstomach")
+  anno_path <- spekex::get_annotations_path('sham')
 
   result <- source_annotations(anno_path)
   expect_type(result, "environment")
