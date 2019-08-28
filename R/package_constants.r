@@ -4,6 +4,9 @@ library(spekex)
 # top level config environment
 BS <- new.env()
 
+# Annotation function naming pattern
+BS$ANNO_FUNC_PATTERN <- "annotate"
+
 # IRIs for parsing spek
 BS$HAS_DISPOSITION_URI <- spekex::SE$HAS_DISPOSITION_IRI
 BS$DEFAULT_APP_ONTO_URL <- spekex::SE$DEFAULT_APP_IRI
