@@ -7,21 +7,24 @@
 #' @importFrom spekex write_spek read_spek
 #' @export
 main <- function(spek_path = NULL, annotation_path, data_path, verbose=FALSE) {
+  # Set verbose env flag
+  if(verbose){
+    Sys.setenv(BS_VERBOSE=TRUE)
+  } else{
+    Sys.setenv(BS_VERBOSE=FALSE)
+  }
+
   # Read inputs
   spek <- spekex::read_spek(spek_path)
   raw_data <- read_data(data_path)
 
-  # Build configuration
-  if(verbose){ Sys.setenv(BS_VERBOSE=TRUE) }
-  else{ Sys.setenv(BS_VERBOSE=FALSE) }
-
-  # Ingest performance data and annotate performers based on performance data
+  # Process performance data and annotate performers
   performers_table <- digestion(annotation_path, raw_data, spek)
 
-  # Merge performer annotations with given spek
+  # Merge performer annotations into the spek
   spek_plus <- merge_performers(spek, performers_table)
 
-  # Write Spek with annotations added to outfile
+  # Write spek to stdout
   spekex::write_spek(spek_plus)
   invisible(NULL)
 }
