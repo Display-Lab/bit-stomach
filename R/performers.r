@@ -6,11 +6,10 @@
 #' @note Convenient format for subsequent export to jsonld
 #' @import dplyr
 #' @importFrom rlang !! :=
-performers <- function(dispositions, app_onto_url) {
+performers <- function(dispositions) {
   if(is.null(dispositions)){ return(data.frame())}
   dispositions %>%
     group_by(id) %>%
     summarise(has_disposition = list(disposition)) %>%
-    mutate("@type" = BS$PERFORMER_URI, id = paste0(app_onto_url, id)) %>%
     rename("@id" = id, !!BS$HAS_DISPOSITION_URI := has_disposition)
 }
