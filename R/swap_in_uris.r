@@ -10,7 +10,7 @@ swap_in_uris <- function(annotations, uri_lookup=list()) {
 }
 
 #' @title lookup new name
-#' @describeIn swap_in_uris
+#' @describeIn swap_in_uris Lookup replacement for name
 #' @param x name to lookup
 #' @param lu_list lookup list to check x against names for value of new name
 #' @return new name or original x if x not present in names of lookup list.
