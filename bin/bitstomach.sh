@@ -16,11 +16,9 @@ is specified, it prints updated spek to stdout.
 
 Options:
   -h | --help   print help and exit
-  -c | --config path to configuration file
   -s | --spek   path to spek file (default to stdin)
   -d | --data   path to data file
   -a | --anno   path to annotations file
-  -o | --output path to output directory (default to ./build)
   --version     print package version
   --verbose     print logging output
 HEREDOC
@@ -33,10 +31,6 @@ while (( "$#" )); do
       echo "${USE_MSG}"
       exit 0
       ;;
-    -c|--config)
-      CONFIG_FILE="'${2}'"
-      shift 2
-      ;;
     -d|--data)
       DATA_FILE="'${2}'"
       shift 2
@@ -47,10 +41,6 @@ while (( "$#" )); do
       ;;
     -s|--spek)
       SPEK_FILE="'${2}'"
-      shift 2
-      ;;
-    -o|--output)
-      OUTPUT_DIR="'${2}'"
       shift 2
       ;;
     --verbose)
@@ -85,9 +75,8 @@ fi
 
 mkdir -p "${OUTPUT_DIR}"
 
-INPUT_ARGS="spek_path=${SPEK_FILE:-NULL}, config_path=${CONFIG_FILE:-NULL},\
-  data_path=${DATA_FILE:-NULL}, annotation_path=${ANNO_FILE:-NULL}, \
-  output_dir='${OUTPUT_DIR}', verbose=${VERBOSE_ARG:-FALSE}"
+INPUT_ARGS="spek_path=${SPEK_FILE:-NULL}, data_path=${DATA_FILE:-NULL},\
+  annotation_path=${ANNO_FILE:-NULL}, verbose=${VERBOSE_ARG:-FALSE}"
 
 EXPR="bitstomach::main(${INPUT_ARGS})"
 Rscript --default-packages=bitstomach -e "${EXPR}"
