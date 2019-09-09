@@ -66,7 +66,7 @@ measure_digest <- function(ldata, spek, anno_env){
   if(Sys.getenv("BS_VERBOSE") == T){ print(dispositions)}
 
   # Create performers table as precursor to json-ification
-  perf_dispositions <- performers(dispositions)
+  perf_dispositions <- aggregate_dispositions(dispositions)
 
   old_disps <- perf_dispositions[[BS$HAS_DISPOSITION_URI]]
   updated_disps <- lapply(old_disps, add_measure_to_disposition, m_id=measure_id)
