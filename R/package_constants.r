@@ -4,6 +4,11 @@ library(spekex)
 # top level config environment
 BS <- new.env()
 
+# Annotation function naming pattern
+BS$ANNO_FUNC_PATTERN <- "annotate"
+# IRI for dispositions
+BS$REGARDING_MEASURE <- "http://example.com/slowmo#RegardingMeasure"
+
 # IRIs for parsing spek
 BS$HAS_DISPOSITION_URI <- spekex::SE$HAS_DISPOSITION_IRI
 BS$DEFAULT_APP_ONTO_URL <- spekex::SE$DEFAULT_APP_IRI
@@ -30,14 +35,14 @@ BS$LARGE_GAP <- spekex::SE$LARGE_GAP_IRI
 
 # Used in swap_in_uris.r as lookup for shortname names in annotations to full IRI
 BS$DEFAULT_URI_LOOKUP <- list(
-  performer            = "http://purl.obolibrary.org/obo/psdo_0000085",
+  performer            = BS$PERFORMER_URI,
   has_performer        = BS$HAS_PERFORMER_URI,
   uses_template        = "http://example.com/slowmo#IsAboutTemplate",
   spek                 = "http://example.com/slowmo#spek",
   normative_comparator = "http://example.com/slowmo#NormativeComparator",
   related_location     = "http://example.com/slowmo#RelatedLocation",
   has_part             = "http://purl.obolibrary.org/obo/bfo#BFO_0000051",
-  has_disposition      = "http://purl.obolibrary.org/obo/RO_0000091",
+  has_disposition      = BS$HAS_DISPOSITION_URI,
   client_spek          = "http://example.com/app#clientname_spek",
   capability_barrier   = BS$CAPABILITY_BARRIER,
   negative_trend       = BS$NEGATIVE_TREND,

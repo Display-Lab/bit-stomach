@@ -9,39 +9,52 @@
 #' @importFrom utils lsf.str
 annotate <- function(data, anno_env, spek) {
   # Get list of annotations functions from annotation environment
-  anno_func_names <- lsf.str(envir = anno_env, pattern = "annotate")
+  anno_func_names <- anno_func_names(anno_env)
 
-  if(length(anno_func_names) < 1){
-    rlang::warn(BS$WARN_NO_ANNOTATION_FUNCTIONS)
-  }
-
-  # One time setup to add cached values to annotation environment
-  setup_func <- lsf.str(envir=anno_env, pattern="^setup_cache$")
-  if(length(setup_func)==1){
-    # TODO implement passing spek into annotate and annotations
-    cache <- do.call(toString(setup_func), args=list(data=data, spek=list()), envir=anno_env)
-    anno_env$cache <- cache
-  }
+  # One time setup to add cached values as side effect to enviroment
+  setup_anno_cache(data, anno_env, list())
 
   # Build arguement list to pass to each of the annotation functions
   anno_args <- list(data = data, spek = spek)
 
+  # Names of lists will be used later in Reduce,
+  #  so use function names as the names of their results.
   anno_results <- lapply(anno_func_names, FUN = run_annotation, args = anno_args, envir = anno_env)
   names(anno_results) <- anno_func_names
 
+  # Don't let error in an annotation function halt the process.
   result_is_error <- sapply(anno_results, function(x){ "error" %in% class(x)})
-
-  if(any(result_is_error)){
-    emit_annotation_errors(anno_results[result_is_error])
-  }
+  if(any(result_is_error)){ emit_annotation_errors(anno_results[result_is_error]) }
 
   # Reduce results list into a single annotation table
   Reduce(left_join, anno_results)
 }
 
+#' @title Setup Annotation Cache
+#' @param env environment of annotation functions
+#' @param spek Lists representation of spek
+#' @describeIn annotate run one time setup and append cache to annotation environment
+setup_anno_cache <- function(data, env, spek){
+  setup_func <- lsf.str(envir=env, pattern="^setup_cache$")
+  if(length(setup_func)==1){
+    # TODO implement passing spek into annotate and annotations
+    cache <- do.call(toString(setup_func), args=list(data=data, spek=list()), envir=env)
+    env$cache <- cache
+  }
+  invisible(env)
+}
+
+#' @title Annotation Functions Names
+#' @describeIn annotate get annotation function names from environment
+#' @param env annotation environment
+anno_func_names <- function(env){
+  func_names <- lsf.str(envir = env, pattern = BS$ANNO_FUNC_PATTERN)
+  if(length(func_names) < 1){ rlang::warn(BS$WARN_NO_ANNOTATION_FUNCTIONS) }
+  return(func_names)
+}
+
 #' @title Run Annotation
-#' @describeIn annotate
-#' @description Wrap running single annotation function to return errors for subsequent aggregation.
+#' @describeIn annotate Wrap running single annotation function to return errors for subsequent aggregation.
 #' @param func_name Character string naming the annotation function to call
 #' @param args List of arguments for the function call
 #' @param env Environment in which to call the function
@@ -52,8 +65,7 @@ run_annotation <- function(func_name, args, envir){
 }
 
 #' @title Emit Annotation Errors
-#' @describeIn annotate
-#' @description wrap up list of errors into single error message.
+#' @describeIn annotate wrap up list of errors into single error message.
 emit_annotation_errors <- function(err_list){
   header <- paste("Encountered", length(err_list), "errors in annotations:", sep=" ")
   formatted_errors <- sapply(err_list, FUN=error_reformat)

@@ -22,8 +22,8 @@ distill_annotations <- function(annotations) {
 }
 
 #' @title value listify
-#' @description Wrap individual values in a list keyed by '@value'.  Puts table in correct format for conversion to json-ld
+#' @description Wrap individual values in a list keyed by '@type'.  Puts table in correct format for conversion to json-ld
 value_listify <- function(indata){
-  listed <- lapply(indata, FUN=function(x){list('@value'=x)})
+  listed <- lapply(indata, FUN=function(x){list('@type'=x)})
   return(listed)
 }
