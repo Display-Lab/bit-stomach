@@ -65,6 +65,7 @@ run_annotation <- function(func_name, args, envir){
 }
 
 #' @title Emit Annotation Errors
+#' @param err_list List of Errors to be emitted.
 #' @describeIn annotate wrap up list of errors into single error message.
 emit_annotation_errors <- function(err_list){
   header <- paste("Encountered", length(err_list), "errors in annotations:", sep=" ")
@@ -75,8 +76,8 @@ emit_annotation_errors <- function(err_list){
 }
 
 #' @title  Error Reformat
-#' @describeIn annotate
-#' @description Convenience function to format error call and message into character vector for repackaging.
+#' @param err Error to be formatted
+#' @describeIn annotate Convenience function to format error call and message into character vector for repackaging.
 error_reformat <- function(err){
   paste0(
     paste("in ", err$call, ":", sep=""),
