@@ -15,34 +15,14 @@ digestion <- function(annotation_path, raw_data, spek){
   idd_data <- canonicalize_ids(raw_data, id_columns)
 
   # Split data by measure
-  m_data <- split_by_measure(idd_data, spek)
+  measure_data <- split_by_measure(idd_data, spek)
 
   # Process each measure through annotations
-  m_performers <- purrr::lmap(.x=m_data, .f=measure_digest, spek=spek, anno_env=anno_env)
+  dispositions <- purrr::lmap(.x=measure_data, .f=measure_digest,
+                              spek=spek, anno_env=anno_env)
 
   # Aggregate each measure-performers table under single performer
-  make_performers(m_performers)
-}
-
-#' @title Make Performers
-#' @description Create table of performers from measure-performers
-#' @param m_performers List of measure-performer tibbles
-#' @importFrom dplyr bind_rows
-make_performers <- function(m_performers){
-  df <- dplyr::bind_rows(m_performers)
-  df %>%
-    group_by(`@id`) %>%
-    summarise_at(.vars=BS$HAS_DISPOSITION_URI, .funs=aggregate_measure_dispositions) %>%
-    mutate("@type" = BS$PERFORMER_URI, `@id` = paste0(BS$DEFAULT_APP_ONTO_URL, `@id`))
-}
-
-#' @title Aggregate Measure Dispositions
-#' @describeIn digestion Helper function to collapse lists of measure-dispositions to single list.
-#' @param List of lists of measure-dipositions
-#' @importFrom purrr reduce
-aggregate_measure_dispositions <- function(x){
-  result <- purrr::reduce(x, append)
-  list(result)
+  make_performers(dispositions)
 }
 
 #' @title Measure Digest
@@ -69,19 +49,26 @@ measure_digest <- function(ldata, spek, anno_env){
   perf_dispositions <- aggregate_dispositions(dispositions)
 
   old_disps <- perf_dispositions[[BS$HAS_DISPOSITION_URI]]
-  updated_disps <- lapply(old_disps, add_measure_to_disposition, m_id=measure_id)
+  updated_disps <- lapply(old_disps, add_measure_to_dispositions, m_id=measure_id)
   perf_dispositions[[BS$HAS_DISPOSITION_URI]] <- updated_disps
 
   # Wrap tibble in a list to fit return type of lmap
   return(list(perf_dispositions))
 }
 
-#' @title Structure Disposition
-#' @description Create structure relating disposition to measure
+#' @title Add Measure to Disposition
+#' @description Create structure relating dispositions to a measure
 #' @param disposition List dispostion IRIs of the performer each the IRI of a class of information content entity
 #' @param m_id The @id of the measure
+#' @return List of updated dispositions.
+add_measure_to_dispositions <- function(dispositions, m_id){
+  lapply(dispositions, attach_measure, m = m_id)
+}
+
+#' @title Attach Measure
+#' @description Add "related to" predicate to a disposition
 #' @return data frame wrapped in a list. Structured representation of the information content entity
-add_measure_to_disposition <- function(disposition, m_id){
-  disposition[[1]][BS$REGARDING_MEASURE] <- m_id
-  return(disposition)
+attach_measure <- function(disp, m_id){
+  disp[[1]][BS$REGARDING_MEASURE] <- m_id
+  return(disp)
 }
