@@ -67,8 +67,8 @@ add_measure_to_dispositions <- function(dispositions, m_id){
 
 #' @title Attach Measure
 #' @description Add "related to" predicate to a disposition
-#' @return data frame wrapped in a list. Structured representation of the information content entity
+#' @return List measure with predicate associating measure id added.
 attach_measure <- function(disp, m_id){
-  disp[[1]][BS$REGARDING_MEASURE] <- m_id
+  disp[BS$REGARDING_MEASURE] <- m_id
   return(disp)
 }
