@@ -3,6 +3,7 @@
 .RData
 .Ruserdata
 *.Rproj
-scratch.r
+
+scratch.*
 
 man/*
