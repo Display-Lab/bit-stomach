@@ -3,12 +3,12 @@ context("Aggregate distilled annotations")
 
 DISPOSITIONS <- tibble::tribble(
 ~id     ,~disposition ,
-"Alice" , list(`@type` = "http://purl.obolibrary.org/obo/psdo.owl/psdo_0000105"),
-"Bob"   , list(`@type` = "http://purl.obolibrary.org/obo/psdo.owl/psdo_0000105"),
-"Alice" , list(`@type` = "http://purl.obolibrary.org/obo/psdo.owl/psdo_0000100"),
-"Bob"   , list(`@type` = "http://purl.obolibrary.org/obo/psdo.owl/psdo_0000099"),
-"Carol" , list(`@type` = "http://purl.obolibrary.org/obo/psdo.owl/psdo_0000104"),
-"Dan"   , list(`@type` = "http://purl.obolibrary.org/obo/psdo.owl/psdo_0000105")
+"Alice" , list(`@type` = "http://purl.obolibrary.org/obo/psdo_0000105"),
+"Bob"   , list(`@type` = "http://purl.obolibrary.org/obo/psdo_0000105"),
+"Alice" , list(`@type` = "http://purl.obolibrary.org/obo/psdo_0000100"),
+"Bob"   , list(`@type` = "http://purl.obolibrary.org/obo/psdo_0000099"),
+"Carol" , list(`@type` = "http://purl.obolibrary.org/obo/psdo_0000104"),
+"Dan"   , list(`@type` = "http://purl.obolibrary.org/obo/psdo_0000105")
 )
 
 ANNOTATIONS <- tibble::tribble(
