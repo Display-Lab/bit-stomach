@@ -69,6 +69,6 @@ add_measure_to_dispositions <- function(dispositions, m_id){
 #' @description Add "related to" predicate to a disposition
 #' @return List measure with predicate associating measure id added.
 attach_measure <- function(disp, m_id){
-  disp[BS$REGARDING_MEASURE] <- m_id
+  disp[BS$REGARDING_MEASURE] <- list(list(`@id` = m_id))
   return(disp)
 }
