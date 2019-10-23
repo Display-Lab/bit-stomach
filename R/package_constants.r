@@ -39,7 +39,6 @@ BS$DEFAULT_URI_LOOKUP <- list(
   has_performer        = BS$HAS_PERFORMER_URI,
   uses_template        = spekex::SE$ABOUT_TEMPLATE_IRI,
   spek                 = "http://example.com/slowmo#spek",
-  normative_comparator = "http://example.com/slowmo#NormativeComparator",
   has_disposition      = BS$HAS_DISPOSITION_URI,
   capability_barrier   = BS$CAPABILITY_BARRIER,
   negative_trend       = BS$NEGATIVE_TREND,
@@ -47,7 +46,13 @@ BS$DEFAULT_URI_LOOKUP <- list(
   negative_gap         = BS$NEGATIVE_GAP,
   positive_gap         = BS$POSITIVE_GAP,
   performance_gap      = BS$PERFORMANCE_GAP,
-  large_gap            = BS$LARGE_GAP
+  large_gap            = BS$LARGE_GAP,
+  acheivement          = spekex::SE$ACHEIVEMENT_IRI,
+  consec_neg_gap       = spekex::SE$CONSEC_NEG_GAP_IRI,
+  cnosec_pos_gap       = spekex::SE$CONSEC_POS_GAP_IRI,
+  goal_comparator      = spekex::SE$GOAL_COMPARATOR_IRI,
+  social_comparator    = spekex::SE$SOCIAL_COMPARATOR_IRI,
+  standard_comparator  = spekex::SE$STANDARD_COMPARATOR_IRI
 )
 
 # Default configuration
