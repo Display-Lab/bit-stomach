@@ -16,7 +16,7 @@ split_by_measure <- function(data, spek){
     measure_vals <- data[,measure_colname]
     measure_dfs <- split(data, f=measure_vals)
     measure_names <- names(measure_dfs)
-    measure_ids  <- sapply(measure_names, FUN=spekex::lookup_measure_id, spek=spek)
+    measure_ids  <- sapply(measure_names, FUN=spekex::lookup_measure_id_by_value, spek=spek)
     names(measure_dfs) <- measure_ids
   }
   return(measure_dfs)

@@ -12,7 +12,7 @@ annotate <- function(data, anno_env, spek) {
   anno_func_names <- anno_func_names(anno_env)
 
   # One time setup to add cached values as side effect to enviroment
-  setup_anno_cache(data, anno_env, list())
+  setup_anno_cache(data, anno_env, spek)
 
   # Build arguement list to pass to each of the annotation functions
   anno_args <- list(data = data, spek = spek)
@@ -37,8 +37,7 @@ annotate <- function(data, anno_env, spek) {
 setup_anno_cache <- function(data, env, spek){
   setup_func <- lsf.str(envir=env, pattern="^setup_cache$")
   if(length(setup_func)==1){
-    # TODO implement passing spek into annotate and annotations
-    cache <- do.call(toString(setup_func), args=list(data=data, spek=list()), envir=env)
+    cache <- do.call(toString(setup_func), args=list(data=data, spek=spek), envir=env)
     env$cache <- cache
   }
   invisible(env)

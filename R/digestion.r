@@ -34,6 +34,9 @@ measure_digest <- function(ldata, spek, anno_env){
   data <- ldata[[1]]
   measure_id <- names(ldata)
 
+  # Add measure_id to the annotation environment so it's accessible
+  anno_env$measure_id <- measure_id
+
   # Process data and generate annotations
   annotations <- annotate(data, anno_env, spek)
   if(Sys.getenv("BS_VERBOSE") == T){ print(annotations)}
