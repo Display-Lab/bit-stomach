@@ -16,7 +16,8 @@ main <- function(spek_path = NULL, annotation_path, data_path, verbose=FALSE) {
 
   # Read inputs
   spek <- spekex::read_spek(spek_path)
-  raw_data <- read_data(data_path)
+  col_types <- spekex::cols_for_readr(spek)
+  raw_data <- read_data(data_path, col_types)
 
   # Process performance data and annotate performers
   performers_table <- digestion(annotation_path, raw_data, spek)
