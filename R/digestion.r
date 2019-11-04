@@ -1,5 +1,5 @@
 #' @title Digestion
-#' @description Digest the inputs specified in the runtime configuration.
+#' @description Cuts up the input by measure, processes each measure, and consolidates results.
 #' @param annotation_path path to annotations.r file
 #' @param raw_data data frame of performance data as read from disk
 #' @param spek Lists representation of spek graph
@@ -27,7 +27,7 @@ digestion <- function(annotation_path, raw_data, spek){
 
 #' @title Measure Digest
 #' @describeIn digestion Generate annotations about a single measure.
-#' @param ldata named sub list of measure data. Essentially m_data[n]
+#' @param ldata named list of a single measure's data; essentially list(m_data[n]).
 #' @param spek Lists representation of spek graph
 #' @param anno_env Environment containing annotation functions
 measure_digest <- function(ldata, spek, anno_env){
