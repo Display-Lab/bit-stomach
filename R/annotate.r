@@ -9,7 +9,7 @@
 #' @importFrom utils lsf.str
 annotate <- function(data, anno_env, spek) {
   # Get list of annotations functions from annotation environment
-  anno_func_names <- anno_func_names(anno_env)
+  anno_fnames <- anno_func_names(anno_env)
 
   # One time setup to add cached values as side effect to enviroment
   setup_anno_cache(data, anno_env, spek)
@@ -19,15 +19,15 @@ annotate <- function(data, anno_env, spek) {
 
   # Names of lists will be used later in Reduce,
   #  so use function names as the names of their results.
-  anno_results <- lapply(anno_func_names, FUN = run_annotation, args = anno_args, envir = anno_env)
-  names(anno_results) <- anno_func_names
+  anno_results <- lapply(anno_fnames, FUN = run_annotation, args = anno_args, envir = anno_env)
+  names(anno_results) <- anno_fnames
 
   # Don't let error in an annotation function halt the process.
   result_is_error <- sapply(anno_results, function(x){ "error" %in% class(x)})
   if(any(result_is_error)){ emit_annotation_errors(anno_results[result_is_error]) }
 
   # Reduce results list into a single annotation table
-  Reduce(left_join, anno_results)
+  Reduce(function(x,y){left_join(x,y,by="id")}, anno_results)
 }
 
 #' @title Setup Annotation Cache
