@@ -74,9 +74,9 @@ annotate_large_gap <- function(data, spek){
   data %>% group_by(!!id) %>% summarize( large_gap = FALSE)
 }
 
-annotate_acheivement <- function(data, spek){
+annotate_achievement <- function(data, spek){
   id <- cache$id_col_sym
-  data %>% group_by(!!id) %>% summarize( acheivement = FALSE)
+  data %>% group_by(!!id) %>% summarize( achievement = FALSE)
 }
 
 annotate_consec_neg_gap <- function(data, spek){
