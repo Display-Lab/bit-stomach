@@ -8,6 +8,7 @@ BS <- new.env()
 BS$ANNO_FUNC_PATTERN <- "annotate"
 # IRI for dispositions
 BS$REGARDING_MEASURE <- "http://example.com/slowmo#RegardingMeasure"
+BS$REGARDING_COMPARATOR <- "http://example.com/slowmo#RegardingComparator"
 
 # IRIs for parsing spek
 BS$HAS_DISPOSITION_URI <- spekex::SE$HAS_DISPOSITION_IRI
