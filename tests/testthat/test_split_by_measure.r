@@ -14,8 +14,9 @@ test_that('Split by measure yields correct size list.', {
 
 test_that('Split by measure yields list using measure ids as names.', {
   result <- split_by_measure(VA2_DATA, VA2_SPEK)
-  measure_ids <- c("_:m1", "_:m2")
-  expect_setequal(names(result), measure_ids)
+  # expect names begin with the expected spekex bnode naming prefix for measures
+  pattern <- paste0("^", SE$MEASURE_BNODE_PREFIX)
+  expect_match(names(result), pattern)
 })
 
 test_that('No measure column returns list with only original data', {
