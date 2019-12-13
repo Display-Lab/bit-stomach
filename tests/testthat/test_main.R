@@ -15,6 +15,7 @@ run_suite <- function(suite_name){
 test_that('Program runs with all example projects.', {
   skip_if_not(Sys.getenv("FULLTEST") == TRUE, "Sys.getenv('FULLTEST')")
   suite_names <- spekex::list_suite_names()
+  cat("\n")
   results <- lapply(suite_names, run_suite)
 
   expect_true(all(sapply(results, is.character)))

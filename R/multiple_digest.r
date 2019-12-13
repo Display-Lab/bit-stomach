@@ -17,38 +17,32 @@ multiple_digest <- function(ldata, spek, anno_env){
   # If there are comparators, create digest for each comparator
   measure <- lookup_measure(measure_id, spek)
   comparator_ids <- sapply(comparators_of_measure(measure), id_of_comparator)
+  wrapped_measure_id <- list(list(`@id`=measure_id))
 
   if(length(comparator_ids) > 0){
     comp_disps <- lapply(comparator_ids, generate_dispositions_for_comparator,
-                         data=data, anno_env=anno_env, spek=spek, measure_id=measure_id)
-    result_dispositions <- lapply(comp_disps, apply_measure_to_disps_table, measure_id=measure_id)
+                         data=data, anno_env=anno_env, spek=spek)
+    result_disps <- lapply(comp_disps, append_to_dispositions,
+                           predicate=BS$REGARDING_MEASURE, object=wrapped_measure_id)
   }else{
-    perf_dispositions <- generate_dispositions(data, anno_env, spek)
-    # Update dispositions column regarding measure
-    old_disps <- perf_dispositions[[BS$HAS_DISPOSITION_URI]]
-    updated_disps <- lapply(old_disps, add_measure_to_dispositions, m_id=measure_id)
-    perf_dispositions[[BS$HAS_DISPOSITION_URI]] <- updated_disps
-    result_dispositions <- list(perf_dispositions)
+    dispositions <- generate_dispositions(data, anno_env, spek)
+    dispositions <- append_to_dispositions(dispositions,
+                                           predicate=BS$REGARDING_MEASURE,
+                                           object=wrapped_comparator_id)
+    result_disps <- list(dispositions)
   }
-  return(result_dispositions)
+  return(result_disps)
 }
 
-# TODO: Replace measure_digest with multiple_digest.
-# TODO: Refactor out common code and make copacetic with comparator digest and measure digest support functions.
-apply_measure_to_disps_table <- function(disps_tbl, measure_id){
-  # Update dispositions column regarding measure
-  old_disps <- disps_tbl[[BS$HAS_DISPOSITION_URI]]
-  updated_disps <- lapply(old_disps, add_measure_to_dispositions, m_id=measure_id)
-  disps_tbl[[BS$HAS_DISPOSITION_URI]] <- updated_disps
-  disps_tbl
-}
-
-generate_dispositions_for_comparator <- function(comp_id, data, anno_env, spek, measure_id){
-    perf_dispositions <- generate_dispositions(data, anno_env, spek)
+#' @describeIn multiple_digest
+#' @param comp_id id of comparator
+#' @return list of disposition tables
+generate_dispositions_for_comparator <- function(comp_id, data, anno_env, spek){
+    anno_env$comparator_id <- comp_id
+    dispositions <- generate_dispositions(data, anno_env, spek)
     # Update dispositions column regarding comparator
-    old_disps <- perf_dispositions[[BS$HAS_DISPOSITION_URI]]
-    updated_disps <- lapply(old_disps, add_comparator_to_dispositions, m_id=comp_id)
-    perf_dispositions[[BS$HAS_DISPOSITION_URI]] <- updated_disps
-    perf_dispositions
+    wrapped_comparator_id <- list(list(`@id`=comp_id))
+    dispositions <- append_to_dispositions(dispositions,
+                                           predicate=BS$REGARDING_COMPARATOR,
+                                           object=wrapped_comparator_id)
 }
-
