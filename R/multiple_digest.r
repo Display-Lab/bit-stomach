@@ -3,6 +3,7 @@
 #' @param ldata named list of a measure's data; essentially measure_data[n].
 #' @param spek Lists representation of spek graph
 #' @param anno_env Environment containing annotation functions
+#' @importFrom spekex lookup_measure id_of_comparator comparators_of_measure
 multiple_digest <- function(ldata, spek, anno_env){
   # Get measure_id from the list name make available in annotation environment
   measure_id <- names(ldata)
@@ -15,8 +16,8 @@ multiple_digest <- function(ldata, spek, anno_env){
   assertions[BS$REGARDING_MEASURE] <- measure_id
 
   # If there are comparators, create digest for each comparator
-  measure <- lookup_measure(measure_id, spek)
-  comparator_ids <- sapply(comparators_of_measure(measure), id_of_comparator)
+  measure <- spekex::lookup_measure(measure_id, spek)
+  comparator_ids <- sapply(spekex::comparators_of_measure(measure), spekex::id_of_comparator)
   wrapped_measure_id <- list(list(`@id`=measure_id))
 
   if(length(comparator_ids) > 0){
@@ -38,11 +39,11 @@ multiple_digest <- function(ldata, spek, anno_env){
 #' @param comp_id id of comparator
 #' @return list of disposition tables
 generate_dispositions_for_comparator <- function(comp_id, data, anno_env, spek){
-    anno_env$comparator_id <- comp_id
-    dispositions <- generate_dispositions(data, anno_env, spek)
-    # Update dispositions column regarding comparator
-    wrapped_comparator_id <- list(list(`@id`=comp_id))
-    dispositions <- append_to_dispositions(dispositions,
-                                           predicate=BS$REGARDING_COMPARATOR,
-                                           object=wrapped_comparator_id)
+  anno_env$comparator_id <- comp_id
+  dispositions <- generate_dispositions(data, anno_env, spek)
+  # Update dispositions column regarding comparator
+  wrapped_comparator_id <- list(list(`@id`=comp_id))
+  dispositions <- append_to_dispositions(dispositions,
+                                         predicate=BS$REGARDING_COMPARATOR,
+                                         object=wrapped_comparator_id)
 }
