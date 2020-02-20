@@ -70,10 +70,8 @@ while (( "$#" )); do
 done
 
 if [[ -z $OUTPUT_DIR ]]; then
-    OUTPUT_DIR="${PWD}/build"
+    OUTPUT_DIR="${PWD}"
 fi
-
-mkdir -p "${OUTPUT_DIR}"
 
 INPUT_ARGS="spek_path=${SPEK_FILE:-NULL}, data_path=${DATA_FILE:-NULL},\
   annotation_path=${ANNO_FILE:-NULL}, verbose=${VERBOSE_ARG:-FALSE}"
