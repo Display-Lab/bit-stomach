@@ -50,7 +50,7 @@ while (( "$#" )); do
       ;;
     --version)
       VER_EXPR='cat(as.character(packageVersion("bitstomach")))'
-      VER_STRING=$(Rscript --vanilla --default-packages=utils -e "${VER_EXPR}")
+      VER_STRING=$(Rscript --default-packages=utils -e "${VER_EXPR}")
       echo "bitstomach package version: ${VER_STRING}"
       exit 0
       ;;
