@@ -7,6 +7,14 @@
 #'   Values for annotated attributes are TRUE or FALSE indicating presence or absence of attribute.
 #' @seealso source_annotations
 #' @importFrom utils lsf.str
+# EXAMPLE RETURN VALUE
+# A tibble:
+#  id    achievement capability_barr… consec_neg_gap consec_pos_gap large_gap negative_gap negative_trend
+#  <chr> <lgl>       <lgl>            <lgl>          <lgl>          <lgl>     <lgl>        <lgl>
+#  802   FALSE       FALSE            FALSE          FALSE          FALSE     TRUE         TRUE
+#  1156  FALSE       FALSE            FALSE          FALSE          FALSE     FALSE        TRUE
+#  Syn1  TRUE        FALSE            FALSE          FALSE          FALSE     FALSE        FALSE
+#  Syn2  NA          FALSE            FALSE          FALSE          FALSE     NA           FALS
 annotate <- function(data, anno_env, spek) {
   # Get list of annotations functions from annotation environment
   anno_fnames <- anno_func_names(anno_env)

@@ -8,6 +8,17 @@
 #' @import dplyr
 #' @importFrom tidyr gather
 #' @importFrom rlang abort
+# RETURN VALUE EXAMPLE
+# A tibble: 14 x 2
+#   id    disposition
+#   <chr> <list>
+#   Syn1  <named list [1]> `@type`: "http://example.com/slowmo#Achievement"
+#   802   <named list [1]> `@type`: "http://purl.obolibrary.org/obo/psdo_0000095"
+#   1156  <named list [1]>
+#   Syn1  <named list [1]>
+#   Syn2  <named list [1]>
+#   802   <named list [1]>
+
 distill_annotations <- function(annotations) {
   # Guard when annotations are null
   if(is.null(annotations)){ return(annotations) }

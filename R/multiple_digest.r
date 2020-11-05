@@ -1,9 +1,27 @@
 #' @title Multiple Digest
-#' @description Generate annotations about a measure and all it's comparators.
+#' @description Generate and wrap dispositions. Adds regarding measure and regarding comparator to each disposition.
+#' @return tibble of id and dispositions list.  Each disposition is regarding measure and comparator
 #' @param ldata named list of a measure's data; essentially measure_data[n].
 #' @param spek Lists representation of spek graph
 #' @param anno_env Environment containing annotation functions
 #' @importFrom spekex lookup_measure id_of_comparator comparators_of_measure
+# RETURN VALUE EXAMPLE
+#  A tibble:
+#  `@id` `http://purl.obolibrary.org/obo/RO_0000091`
+#  <chr> <list>
+#    1 1156  <list [4]>
+#    2 802   <list [4]>
+#    3 Syn1  <list [5]>
+#    4 Syn2  <list [1]>
+# EXAMPLE OF LIST CONENTS
+#  [[1]]
+#  [[1]]$`@type`: "http://purl.obolibrary.org/obo/psdo_0000094"
+#  [[1]]$`http://example.com/slowmo#RegardingComparator`$`@id`: "_:m1002"
+#  [[1]]$`http://example.com/slowmo#RegardingMeasure`$`@id`: "_:m3"
+#  [[2]]
+#  [[2]]$`@type`: "http://purl.obolibrary.org/obo/psdo_0000100"
+#  [[2]]$`http://example.com/slowmo#RegardingComparator`$`@id`: "_:m1002"
+#  [[2]]$`http://example.com/slowmo#RegardingMeasure`$`@id`: "_:m3"
 multiple_digest <- function(ldata, spek, anno_env){
   # Get measure_id from the list name make available in annotation environment
   measure_id <- names(ldata)

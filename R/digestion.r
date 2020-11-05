@@ -6,6 +6,19 @@
 #' @return table of performers and their annotations
 #' @importFrom spekex get_id_col_from_spek
 #' @importFrom purrr lmap
+# RETURN EXAMPLE:
+#   A tibble:
+#   `@id`   `http://purl.obolibrary.org/obo/RO_0000091` `@type`
+#   <chr>   <list>                                      <chr>
+#   1 _:p1156 <list [16]>                                 http://purl.obolibrary.org/obo/psdo_0000085
+#   2 _:p802  <list [14]>                                 http://purl.obolibrary.org/obo/psdo_0000085
+#   3 _:pSyn1 <list [10]>                                 http://purl.obolibrary.org/obo/psdo_0000085
+#   4 _:pSyn2 <list [2]>                                  http://purl.obolibrary.org/obo/psdo_0000085
+# Single entry of one of the R0_0000091 list
+#   [[1]]
+#   [[1]]$`@type`: "http://purl.obolibrary.org/obo/psdo_0000094"
+#   [[1]]$`http://example.com/slowmo#RegardingComparator`$`@id`: "_:m1002"
+#   [[1]]$`http://example.com/slowmo#RegardingMeasure`$`@id`: "_:m3"
 digestion <- function(annotation_path, raw_data, spek){
   # Source annotation functions and additional uri lookup
   anno_env <- source_annotations(annotation_path)
