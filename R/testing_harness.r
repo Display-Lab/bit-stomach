@@ -24,6 +24,7 @@ h_setup_measure_data <- function(spek, raw_data){
 #' @param anno_env sourced annotations
 #' @param spek configuration
 #' @importFrom dplyr first
+#' @export
 h_single_measure_run <- function(spek, anno_env, measure_data, measure_idx=NULL){
   if(is.null(measure_idx)){ measure_idx <- 1 }
 
