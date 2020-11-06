@@ -49,9 +49,12 @@ while (( "$#" )); do
       shift 1
       ;;
     --version)
-      VER_EXPR='cat(as.character(packageVersion("bitstomach")))'
-      VER_STRING=$(Rscript --default-packages=utils -e "${VER_EXPR}")
-      echo "bitstomach package version: ${VER_STRING}"
+      BS_VER_EXPR='cat(as.character(packageVersion("bitstomach")))'
+      BS_VER_STRING=$(Rscript --default-packages=utils -e "${BS_VER_EXPR}")
+      SE_VER_EXPR='cat(as.character(packageVersion("spekex")))'
+      SE_VER_STRING=$(Rscript --default-packages=utils -e "${SE_VER_EXPR}")
+      echo "bitstomach package version: ${BS_VER_STRING}"
+      echo "bitstomach package version: ${SE_VER_STRING}"
       exit 0
       ;;
     --) # end argument parsing
