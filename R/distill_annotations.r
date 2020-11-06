@@ -12,7 +12,7 @@
 # A tibble: 14 x 2
 #   id    disposition
 #   <chr> <list>
-#   Syn1  <named list [1]> `@type`: "http://example.com/slowmo#Achievement"
+#   Syn1  <named list [1]> `@type`: "http://purl.obolibrary.org/obo/psdo_0000112"
 #   802   <named list [1]> `@type`: "http://purl.obolibrary.org/obo/psdo_0000095"
 #   1156  <named list [1]>
 #   Syn1  <named list [1]>
