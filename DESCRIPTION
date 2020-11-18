@@ -1,6 +1,6 @@
 Package: bitstomach
 Title: Bit Stomach
-Version: 0.14.0
+Version: 0.14.2
 Authors@R: person("Colin", "Gross", email = "grosscol@umich.edu", role = c("aut", "cre"))
 Description: Read performance data, apply annotation functions, add performer annotations back to speck, and output spek with annotations.
 Depends: R (>= 3.4.0)

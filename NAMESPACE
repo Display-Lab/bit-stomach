@@ -3,6 +3,7 @@
 export(h_lookup_comparator_ids)
 export(h_setup_annotation_call_args)
 export(h_setup_measure_data)
+export(h_single_measure_run)
 export(main)
 import(dplyr)
 importFrom(dplyr,bind_rows)
