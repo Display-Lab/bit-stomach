@@ -7,3 +7,9 @@
 scratch.*
 
 man/*
+
+# Ignore symlinked example generation files.
+screen_cast/*.csv
+screen_cast/*.cast
+screen_cast/*.json
+screen_cast/*.r
