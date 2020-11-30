@@ -1,9 +1,10 @@
 # Bit Stomach
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1300745.svg)](https://doi.org/10.5281/zenodo.1300745)
 
-![CLI Demo Animation](screen_cast/demo.svg)
 
 A command line application that processes performance data to make assertions about performer attributes. 
+
+An animated SVG screen cast demonstration is in the [screen cast directory.](screen_cast/)
 
 ## Input Requirements 
 The application expects a spek, tabular input data, and annotation functions.
