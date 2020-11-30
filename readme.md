@@ -1,7 +1,7 @@
 # Bit Stomach
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1300745.svg)](https://doi.org/10.5281/zenodo.1300745)
 
-Processes performance data to assert causal pathway attributes about performers. 
+A command line application that processes performance data to make assertions about performer attributes. 
 
 ## Annotations
 Functions to process input data and determine if attribute is present or not.  
@@ -18,7 +18,10 @@ id | cabability\_barrier |
 ## Example Case
 
 ### Input Spek
-JSON-LD description of project including any apriori assertions about performers.
+JSON-LD description of project. It includes:
+  - any apriori assertions about performers.
+  - description of performance data column names and uses.
+  - descriptions of performance measures and comparators.
 
 ### Input Data
 CSV format of performer, timepoint, value
