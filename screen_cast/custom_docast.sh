@@ -28,9 +28,22 @@ function norm_content {
 ##################
 echo "typing to ${CAST_WINDOW_ID}"
 xdotool windowfocus --sync ${CAST_WINDOW_ID}
+# Use aciinema
 xdotool type --window ${CAST_WINDOW_ID} "asciinema rec --overwrite ${CAST_FILE}"
+
+# ALTERNATE CASTING RECORDING OPTIONS:
+
+# Use termtosvg directly
+# xdotool type --window ${CAST_WINDOW_ID} "termtosvg out.svg"
+
+# Use ttygif
+#xdotool type --window ${CAST_WINDOW_ID} "export WINDOWID=${CAST_WINDOW_ID}"
+#xdotool key Return
+#xdotool type --window ${CAST_WINDOW_ID} "ttyrec demo.rec"
+
+# Sends return to start recording
 xdotool key Return
-sleep 2.5
+sleep 2.0
 
 ##############################
 # Begin Casting Instructions #
