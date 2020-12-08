@@ -7,6 +7,8 @@
 #'   Values for annotated attributes are TRUE or FALSE indicating presence or absence of attribute.
 #' @seealso source_annotations
 #' @importFrom utils lsf.str
+#' @importFrom purrr is_null
+#' @importFrom rlang warn
 # EXAMPLE RETURN VALUE
 # A tibble:
 #  id    achievement capability_barr… consec_neg_gap consec_pos_gap large_gap negative_gap negative_trend
@@ -33,6 +35,17 @@ annotate <- function(data, anno_env, spek) {
   # Don't let error in an annotation function halt the process.
   result_is_error <- sapply(anno_results, function(x){ "error" %in% class(x)})
   if(any(result_is_error)){ emit_annotation_errors(anno_results[result_is_error]) }
+
+  #  Emit warning that some annotation resutls were NULL.
+  null_annos <- sapply(anno_results, is_null)
+  if(!is_empty(null_annos)){
+    null_returning_annos <- names(anno_results)[null_annos]
+    null_warn_msg <- paste("Annotation functions returned NULL:", null_returning_annos, sep=' ')
+    rlang::warn(null_warn_msg)
+  }
+
+  # Remove NULLs from list of data sets
+  anno_results[null_annos] <- NULL
 
   # Reduce results list into a single annotation table
   Reduce(function(x,y){left_join(x,y,by="id")}, anno_results)
