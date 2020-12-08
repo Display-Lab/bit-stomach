@@ -1,4 +1,4 @@
-#' @title Dispositions Add On
+#' @title Append to Dispositions
 #' @param disps_tbl Tibble or data frame with id and list of dispositions.
 #' @param predicate fully qualified URI of predicate to add to each disposition.
 #' @param object the object of the predicate to add to each disposition. e.g list(list(`@id`=measure_id))
@@ -11,12 +11,16 @@ append_to_dispositions<- function(disps_tbl, predicate, object){
   disps_tbl
 }
 
-#' @describeIn add_predicate_to_dispositions_table Apply predicate to list of lists of dispositions
+#' Add Predicate to Dispositions
+#' @describeIn Append to Dispositions
+#' @description Apply predicate to list of lists of dispositions
 add_predicate_to_dispositions <- function(disps_list, predicate, object){
   lapply(disps_list, attach_predicate, predicate=predicate, object=object)
 }
 
-#' @describeIn add_predicate_to_dispositions_table Add predicate and object to single disposition
+#' Attach Predicate
+#' @describeIn Append to Dispositions
+#' @description Add predicate and object to single disposition
 #' @param object list wrapped value for the predicate. e.g. list(list(`@id`=measure_id))
 attach_predicate <- function(disp, predicate, object){
   disp[predicate] <- object

@@ -53,7 +53,8 @@ multiple_digest <- function(ldata, spek, anno_env){
   return(result_disps)
 }
 
-#' @describeIn multiple_digest
+#' Generate Dispositions for Comparator
+#' @describeIn Multiple Digest
 #' @param comp_id id of comparator
 #' @return list of disposition tables
 generate_dispositions_for_comparator <- function(comp_id, data, anno_env, spek){
