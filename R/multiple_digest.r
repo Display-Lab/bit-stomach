@@ -47,7 +47,7 @@ multiple_digest <- function(ldata, spek, anno_env){
     dispositions <- generate_dispositions(data, anno_env, spek)
     dispositions <- append_to_dispositions(dispositions,
                                            predicate=BS$REGARDING_MEASURE,
-                                           object=wrapped_comparator_id)
+                                           object=wrapped_measure_id)
     result_disps <- list(dispositions)
   }
   return(result_disps)
