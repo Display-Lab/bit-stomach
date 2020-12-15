@@ -38,7 +38,7 @@ annotate <- function(data, anno_env, spek) {
 
   #  Emit warning that some annotation resutls were NULL.
   null_annos <- sapply(anno_results, is_null)
-  if(!is_empty(null_annos)){
+  if(any(null_annos)){
     null_returning_annos <- names(anno_results)[null_annos]
     null_warn_msg <- paste("Annotation functions returned NULL:", null_returning_annos, sep=' ')
     rlang::warn(null_warn_msg)

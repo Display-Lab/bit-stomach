@@ -51,7 +51,7 @@ BS$DEFAULT_URI_LOOKUP <- list(
   achievement          = spekex::SE$ACHIEVEMENT_IRI,
   loss_content         = spekex::SE$LOSS_CONTENT_IRI,
   consec_neg_gap       = spekex::SE$CONSEC_NEG_GAP_IRI,
-  cnosec_pos_gap       = spekex::SE$CONSEC_POS_GAP_IRI,
+  consec_pos_gap       = spekex::SE$CONSEC_POS_GAP_IRI,
   goal_comparator      = spekex::SE$GOAL_COMPARATOR_IRI,
   social_comparator    = spekex::SE$SOCIAL_COMPARATOR_IRI,
   standard_comparator  = spekex::SE$STANDARD_COMPARATOR_IRI

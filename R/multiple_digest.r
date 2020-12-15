@@ -1,5 +1,6 @@
 #' @title Multiple Digest
-#' @description Generate and wrap dispositions. Adds regarding measure and regarding comparator to each disposition.
+#' @description Generate and wrap dispositions potentially for multiple comparators.
+#'   Adds regarding measure and regarding comparator to each disposition.
 #' @return tibble of id and dispositions list.  Each disposition is regarding measure and comparator
 #' @param ldata named list of a measure's data; essentially measure_data[n].
 #' @param spek Lists representation of spek graph
