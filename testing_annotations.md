@@ -1,24 +1,40 @@
 # Using Annotation Testing Harness
 
-A set of functions that facilitate setting up the state in which annotations are run.
+A set of functions that facilitate setting up the environment in which annotations are run.
 Can be used to debug or develop annotations.
 
+## Setup
+Read the components of a vignette or project into your global environment
+```R
+devtools::load_all()
+library(fs)
+
+# Path to vignettes directory
+vdir <- path('~','workspace','vra','vignettes')
+
+# Paths to relevant files in vignette
+anno_path <- path(vdir, 'bob','annotations.r')
+spek_path <- path(vdir, 'bob','spek.json')
+data_path <- path(vdir, 'bob','performance.csv')
+
+# Read annotation functions
+anno_env <- source_annotations(anno_path)
+
+# Read spek
+spek <- spekex::read_spek(spek_path)
+
+# Read data
+col_types <- spekex::cols_for_readr(spek)
+raw_data <- read_data(data_path, col_types)
+```
 
 ## Run annotations for single measure (first measure)
 
+Two thigs I found useful to examine was the processed measure data and the resulting dispositions
+from a measure
 ```R
-# Example of Working with vignette
-library(bitstomach)
-
-anno_env <- source_annotations('/home/grosscol/workspace/vra/vignettes/bob/annotations.r')
-spek <- spekex::read_spek('/home/grosscol/workspace/vra/vignettes/bob/spek.json')
-col_types <- spekex::cols_for_readr(spek)
-raw_data <- read_data('/home/grosscol/workspace/vra/vignettes/bob/performance.csv', col_types)
-
 measure_data <- h_setup_measure_data(spek, raw_data)
-
 dispositions <- h_single_measure_run(spek, anno_env, measure_data)
-
 ```
 
 The table of dispositions can then be examined for the expected annotations.
@@ -52,59 +68,17 @@ str(bobs_dispos)
 
 Get the annotation function args
 ```R
-# Example of Working with vignette
-library(bitstomach)
-
-anno_env <- source_annotations('/home/grosscol/workspace/vra/vignettes/bob/annotations.r')
-spek <- spekex::read_spek('/home/grosscol/workspace/vra/vignettes/bob/spek.json')
-col_types <- spekex::cols_for_readr(spek)
-raw_data <- read_data('/home/grosscol/workspace/vra/vignettes/bob/performance.csv', col_types)
-measure_data <- h_setup_measure_data(spek, raw_data)
-
 anno_call_args <- h_setup_annotation_call_args(spek, anno_env, measure_data)
-
 ```
 
-With those in hand, both the args and the enclosing frame (`anno_env`) can be attached to the current search() path so the annotation function can be stepped through and examined in the global workspace.
+With those in hand, both the args and the enclosing frame (`anno_env`)
+can be attached to the current search() path
+That lets us step through the  annotation function in our global workspace.
 
 ```R
 attach(anno_env)
 attach(anno_call_args)
-
-```
-
-Individual lines from your annotations functions can be run from your console:
-
-```R
-eval_achievement <- function(x, comp){
-  if(length(x) < 2){ return(FALSE)}
-
-  bools <- x >= comp
-  return( sum(bools)==1 & dplyr::last(bools) == TRUE)
-}
-
-annotate_achievement <- function(data, spek){
-  time <- cache$time_col_sym
-  rate <- cache$rate_col_sym
-  id <- cache$id_col_sym
-
-  all_ids_df <- data %>% select(!!id) %>% distinct
-
-  elidgibile_ids <- data %>%
-    dplyr::filter(!!time == max(!!time)) %>%
-    pull(!!id) %>%
-    unique
-
-  data %>%
-    dplyr::filter(!!id %in% elidgibile_ids) %>%
-    arrange(!!time) %>%
-    group_by(!!id) %>%
-    summarize( achievement = eval_achievement(!!rate,cache$comparator)) %>%
-    right_join(all_ids_df)
-}
-
-# Run individual lines e.g.
-id <- cache$id_col_sym
-all_ids_df <- data %>% select(!!id) %>% distinct
-
+# ... run your annotation function line by line ...
+detach(anno_env)
+detach(anno_call_args)
 ```

@@ -1,10 +1,27 @@
-# # Example of Working with vignette
-# anno_env <- source_annotations('vignettes/bob/annotations.r')
-# spek <- spekex::read_spek('vignettes/bob/spek.json')
+# # Example of testing bitstomach internals with vignette
+# devtools::load_all()
+# library(fs)
+# 
+# # Path to vignettes directory
+# vdir <- path('~','workspace','vra','vignettes')
+# 
+# # Paths to relevant files in vignette
+# anno_path <- path(vdir, 'bob','annotations.r')
+# spek_path <- path(vdir, 'bob','spek.json')
+# data_path <- path(vdir, 'bob','performance.csv')
+# 
+# # Read annotation functions
+# anno_env <- source_annotations(anno_path)
+# 
+# # Read spek
+# spek <- spekex::read_spek(spek_path)
+# 
+# # Read data
 # col_types <- spekex::cols_for_readr(spek)
-# raw_data <- read_data('vignettes/bob/performance.csv', col_types)
-#
-# measure_data <- h_setup_measuure_data(spek, raw_data)
+# raw_data <- read_data(data_path, col_types)
+# 
+# # Run internals
+# measure_data <- h_setup_measure_data(spek, raw_data)
 # dispositions <- h_single_measure_run(spek, anno_env, measure_data)
 
 #' Harness setup measure data
@@ -55,7 +72,8 @@ h_lookup_comparator_ids <- function(measure_id, spek){
 
 #' Setup Annotation Args
 #' Put together calling arguments that would be passed to an annotation function.
-#' @return an environment suitable for use with `attach` to then run annotation function line by line.
+#'   suitable for use with `attach` or `with` to then run annotation function line by line.
+#' @return an environment 
 #' @export
 h_setup_annotation_call_args <- function(spek, anno_env, measure_data, measure_idx=NULL){
   if(is.null(measure_idx)){ measure_idx <- 1 }
