@@ -85,4 +85,3 @@ The performer and attribute is emitted as part of the output JSON-LD.
   "@type": "http://purl.obolibrary.org/obo/psdo_0000085"
 }
 ```
-
